@@ -10,7 +10,7 @@ export default function Home() {
       fontSize='xl'
       h='100vh'
       w='100vw'
-      align='flex-start'
+      align='center'
       justify='center'
       py='6rem'
     >

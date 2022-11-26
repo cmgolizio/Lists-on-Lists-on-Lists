@@ -50,7 +50,7 @@ const Signup = () => {
   }
 
   return (
-    <Center h='100%'>
+    <Center h='100%' py={20}>
       <VStack>
         {isError && <Alert status='error'><AlertIcon/>{isError}</Alert>}
         <Card justify='space-between'>

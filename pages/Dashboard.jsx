@@ -21,7 +21,7 @@ import Login from './auth/Login';
 
 const Dashboard = () => {
   const [error, setError] = useState('');
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, addList } = useAuth();
 
   const router = useRouter();
 
@@ -37,8 +37,6 @@ const Dashboard = () => {
     }
   };
 
-  const ref = React.createRef();
-
   if (!currentUser) return <Login />
   return (
     <Center>
@@ -47,6 +45,7 @@ const Dashboard = () => {
         <Card w='50rem'>
           <CardHeader>
             <Heading size='xl'>Profile</Heading>
+            <Button top={3} onClick={() => router.push('/list/Lists')}>My Lists</Button>
           </CardHeader>
           <CardBody>
             <HStack justify='space-between' px='3rem'>

@@ -5,6 +5,11 @@ const colors = {
   dark: "#16161D",
 };
 
+const config = {
+  initialColorMode: "dark",
+  useSystemColorMode: false,
+};
+
 export const theme = extendTheme({
   styles: {
     global: {
@@ -16,4 +21,5 @@ export const theme = extendTheme({
     },
   },
   colors,
+  config,
 });

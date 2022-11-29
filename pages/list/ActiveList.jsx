@@ -1,12 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import {
   VStack,
   Heading,
   Button,
+  Box
 } from '@chakra-ui/react';
 import {
   doc,
   getDoc,
+  getDocs,
+  collection,
 } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 
@@ -16,52 +20,45 @@ import AddTask from '../../src/components/task/AddTask';
 import Tasks from '../../src/components/task/Tasks';
 
 const ActiveList = () => {
-  const [activeList, setActiveList] = useState();
-  const { currentUser } = useAuth();
+  const { currentUser, activeList, setActiveList, tasks } = useAuth();
   const router = useRouter();
 
-  const getOneList = async () => {
-    const docRef = await doc(db, `users/${currentUser.uid}/lists/${router.query.title}`);
+  const getActiveList = async () => {
+    const docRef = doc(db, `users/${currentUser.uid}/lists/${router.query.title}`);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       setActiveList(docSnap.data());
     } else {
-      console.log("THAT SHIT DON'T EXIST")
+      router.push('/list/Lists');
     }
   };
 
   useEffect(() => {
-    getOneList();
-  }, [])
+    getActiveList();
+  }, []);
 
-  useEffect(() => {
-    console.log('ACTIVE LIST FROM ActiveList.jsx: ', activeList);
-  }, [activeList])
 
-  const handleCloseList = async () => {
-    setActiveList();
-
-    await router.push('/list/Lists');
-  }
 
   return (
     <VStack
       w='100%'
       minH='max-content'
+      py={15}
+      pos='absolute'
+      top={75}
     >
-      <Button
-        top={20}
-        my={10}
-        onClick={handleCloseList}
-      >
-        Close
-      </Button>
-      <Heading py='3rem' size='lg'>
-        {activeList && activeList.title}
-      </Heading>
+      <Box>
+        <Heading  size='3xl'>
+          {!activeList ? null : activeList.title}
+        </Heading>
+      </Box>
+      <Box paddingBottom='1rem'>
+      </Box>
       <AddTask />
-      <Tasks />
+      <Box paddingTop='5rem' visibility={!tasks ? 'hidden' : 'visible'}>
+        {!activeList ? null : <Tasks />}
+      </Box>
     </VStack>
   );
 };

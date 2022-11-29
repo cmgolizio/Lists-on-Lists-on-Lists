@@ -14,13 +14,13 @@ import { useAuth } from '../../src/hooks/useAuth';
 import { db } from '../../src/firebase/firebase';
 
 const Lists = () => {
-  const [lists, setLists] = useState([]);
-  const { currentUser } = useAuth();
+  const { currentUser, lists, setLists, activeList } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    const collectionRef = collection(db, `users/${currentUser.uid}/lists`);
-    const q = query(collectionRef, orderBy('created', 'desc'));
+    setLists(null);
+    const listsCollRef = collection(db, `users/${currentUser?.uid}/lists`);
+    const q = query(listsCollRef, orderBy('created'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setLists(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id, created: doc.data().created?.toDate().getTime()})))
@@ -48,7 +48,9 @@ const Lists = () => {
         justify='space-evenly'
       >
         {
-          lists.map(list => (
+          !lists ?
+          null :
+          (lists.map(list => (
                 <Box
                   as='button'
                   m='2rem'
@@ -68,7 +70,7 @@ const Lists = () => {
                     {list.title}
                   </Heading>
                 </Box>
-              ))
+              )))
         }
       </Flex>
     </Box>

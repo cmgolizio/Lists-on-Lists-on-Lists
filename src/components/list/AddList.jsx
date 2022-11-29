@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import {
   VStack,
@@ -16,7 +16,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 const initialInputData = {
   title: '',
-  description: ''
+  description: '',
 };
 
 const AddListComponent = () => {
@@ -46,13 +46,19 @@ const AddListComponent = () => {
     keyPressed === "Enter" && handleSubmit(e);
   };
 
+  const handleError = async (e) => {
+    e.preventDefault();
+
+    await setError('Please add a list title');
+  };
+
   const handleSuccess = async (e) => {
     e.preventDefault();
 
     await handleAddList(e);
   };
 
-  const handleSubmit = (e) => (inputData.title.length ? handleSuccess(e) : setError('Please add a list title'));
+  const handleSubmit = (e) => (inputData.title.length ? handleSuccess(e) : handleError(e));
 
   return (
     // <Center minH='max-content' w='100%'>

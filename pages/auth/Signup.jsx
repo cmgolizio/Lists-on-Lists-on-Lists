@@ -23,6 +23,9 @@ const Signup = () => {
   const [isError, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
 
+  // const firstNameRef = useRef();
+  // const lastNameRef = useRef();
+  // const avatarRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -40,7 +43,10 @@ const Signup = () => {
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await signup(
+        emailRef.current.value,
+        passwordRef.current.value,
+      );
       router.push('/')
     } catch (error) {
       setError('Failed to create account.');
@@ -59,6 +65,14 @@ const Signup = () => {
           </CardHeader>
           <CardBody mx='2rem'>
             <form onSubmit={(e) => handleSubmit(e)}>
+              {/* <FormControl>
+                <FormLabel>First name</FormLabel>
+                <Input type='text' my='1rem' ref={firstNameRef} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Last Name</FormLabel>
+                <Input type='text' my='1rem' ref={lastNameRef} />
+              </FormControl> */}
               <FormControl isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input type='email' my='1rem' ref={emailRef} />

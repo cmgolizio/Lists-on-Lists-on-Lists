@@ -21,7 +21,7 @@ import Login from './auth/Login';
 
 const Dashboard = () => {
   const [error, setError] = useState('');
-  const { currentUser, logout, addList } = useAuth();
+  const { currentUser, logout } = useAuth();
 
   const router = useRouter();
 
@@ -39,7 +39,7 @@ const Dashboard = () => {
 
   if (!currentUser) return <Login />
   return (
-    <Center>
+    <Center pos='absolute' top={20}>
       <VStack>
         {error && <Alert status='error'><AlertIcon/>{error}</Alert>}
         <Card w='50rem'>
@@ -52,6 +52,14 @@ const Dashboard = () => {
               <Text>Email: </Text>
               <Text>{currentUser.email}</Text>
             </HStack>
+            {/* <HStack justify='space-between' px='3rem'>
+              <Text>First Name: </Text>
+              <Text>{fullName.first}</Text>
+            </HStack>
+            <HStack justify='space-between' px='3rem'>
+              <Text>Last Name: </Text>
+              <Text>{fullName.last}</Text>
+            </HStack> */}
           </CardBody>
           <CardFooter flexDir='column'>
             <Link href='/user/UpdateProfile'>

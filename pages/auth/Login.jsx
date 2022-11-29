@@ -45,7 +45,7 @@ const Login = () => {
   }
 
   return (
-    <Center h='100%'>
+    <Center h='100%' py={20}>
       <VStack>
         {error && <Alert status='error'><AlertIcon/>{error}</Alert>}
         <Card justify='space-between'>

@@ -30,7 +30,7 @@ const Signup = () => {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
 
-  const { signup } = useAuth();
+  const { signup, userColor } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -56,7 +56,7 @@ const Signup = () => {
   }
 
   return (
-    <Center h='100%' py={20}>
+    <Center h='100%' py={20} bg={userColor}>
       <VStack>
         {isError && <Alert status='error'><AlertIcon/>{isError}</Alert>}
         <Card justify='space-between'>

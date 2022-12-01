@@ -2,8 +2,10 @@ import React from "react";
 import { Flex } from "@chakra-ui/react";
 
 import Dashboard from "./Dashboard";
+import { useAuth } from "../src/hooks/useAuth";
 
 export default function Home() {
+  const { userColor } = useAuth();
   return (
     <Flex
       textAlign='center'
@@ -13,6 +15,7 @@ export default function Home() {
       align='center'
       justify='center'
       py='6rem'
+      bg={userColor}
     >
       <Dashboard />
     </Flex>

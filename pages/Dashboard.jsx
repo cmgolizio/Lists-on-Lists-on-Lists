@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { useAuth } from '../src/hooks/useAuth';
+import ColorPicker from '../src/components/ui/ColorPicker';
 import Login from './auth/Login';
 
 const Dashboard = () => {
@@ -52,14 +53,10 @@ const Dashboard = () => {
               <Text>Email: </Text>
               <Text>{currentUser.email}</Text>
             </HStack>
-            {/* <HStack justify='space-between' px='3rem'>
-              <Text>First Name: </Text>
-              <Text>{fullName.first}</Text>
-            </HStack>
             <HStack justify='space-between' px='3rem'>
-              <Text>Last Name: </Text>
-              <Text>{fullName.last}</Text>
-            </HStack> */}
+              <Text>Background Color: </Text>
+              <ColorPicker />
+            </HStack>
           </CardBody>
           <CardFooter flexDir='column'>
             <Link href='/user/UpdateProfile'>

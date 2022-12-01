@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 import {
   collection,
+  query,
   addDoc,
   setDoc,
   getDocs,
@@ -20,7 +21,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 
-import { auth, db, addList, addTask } from '../firebase/firebase';
+import { auth, db } from '../firebase/firebase';
 
 export const AuthContext = createContext();
 
@@ -29,6 +30,7 @@ export const AuthContextProvider = ({ children }) => {
   const [lists, setLists] = useState([]);
   const [activeList, setActiveList] = useState();
   const [tasks, setTasks] = useState([]);
+  const [userColor, setUserColor] = useState('dark');
   const [isLoading, setLoading] = useState(true);
 
     // ** Auth functions ** //
@@ -69,6 +71,7 @@ export const AuthContextProvider = ({ children }) => {
     await setDoc(doc(db, "users", userID), {
       email: email,
       id: userID,
+      bgColor: userColor,
     });
   };
 
@@ -83,6 +86,22 @@ const addTask = async (task) => {
   const listRef = await doc(db, `users/${currentUser.uid}/lists/${activeList.title}`);
   await setDoc(doc(listRef, "tasks", task.id), task);
 };
+
+const deleteList = async (listTitle) => {
+  const taskIDs = []
+  await deleteDoc(doc(db, `users/${currentUser.uid}/lists`, `${listTitle}`))
+    .then(async () => {
+      const tasksQuery = query(collection(db, `users/${currentUser.uid}/lists/${listTitle}/tasks`));
+      const taskSnapshot = await getDocs(tasksQuery);
+      taskSnapshot.forEach((doc) => {
+        taskIDs.push(doc.data().id);
+      });
+    }).finally(async () => {
+      for (let i = 0; i < taskIDs.length; i++) {
+        await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${listTitle}/tasks/${taskIDs[i]}`));
+      }
+    })
+}
 
 const deleteTask = async (taskID) => {
   await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks`, `${taskID}`));
@@ -110,8 +129,11 @@ const checkTask = async (taskID, isChecked) => {
         currentUser,
         lists,
         setLists,
+        deleteList,
         tasks,
         setTasks,
+        userColor,
+        setUserColor,
         deleteTask,
         checkTask,
         login,

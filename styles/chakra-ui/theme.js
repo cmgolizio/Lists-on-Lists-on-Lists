@@ -20,6 +20,18 @@ export const theme = extendTheme({
       },
     },
   },
+  components: {
+    Popover: {
+      variants: {
+        picker: {
+          popper: {
+            maxWidth: "unset",
+            width: "unset",
+          },
+        },
+      },
+    },
+  },
   colors,
   config,
 });

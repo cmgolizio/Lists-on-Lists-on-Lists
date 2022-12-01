@@ -27,7 +27,7 @@ const UpdateProfile = () => {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
 
-  const { currentUser, changeEmail, changePassword } = useAuth();
+  const { currentUser, changeEmail, changePassword, userColor } = useAuth();
 
   const router = useRouter();
 
@@ -57,7 +57,7 @@ const UpdateProfile = () => {
   };
 
   return (
-    <Center h='100%'>
+    <Center h='100%' py={20} bg={userColor}>
       <VStack>
         {error && <Alert status='error'><AlertIcon />{error}</Alert>}
         <Card justify='space-between'>

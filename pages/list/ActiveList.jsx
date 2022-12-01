@@ -20,7 +20,7 @@ import AddTask from '../../src/components/task/AddTask';
 import Tasks from '../../src/components/task/Tasks';
 
 const ActiveList = () => {
-  const { currentUser, activeList, setActiveList, tasks } = useAuth();
+  const { currentUser, activeList, setActiveList, tasks, userColor } = useAuth();
   const router = useRouter();
 
   const getActiveList = async () => {
@@ -47,6 +47,7 @@ const ActiveList = () => {
       py={15}
       pos='absolute'
       top={75}
+      bg={userColor}
     >
       <Box>
         <Heading  size='3xl'>

@@ -5,6 +5,7 @@ import {
   Heading,
   IconButton,
   useColorMode,
+  Text,
 } from '@chakra-ui/react';
 import { GrTrash, GrCheckbox, GrCheckboxSelected } from 'react-icons/gr';
 
@@ -32,10 +33,8 @@ const Task = ({ key, task }) => {
         <IconButton
           variant='outline'
           colorScheme={!colorMode}
-          bg='light'
-          onHover={{
-            colorScheme: 'cornflowerblue'
-          }}
+          bg={task.isChecked ? '#97ff8e' : 'light'}
+          _hover={{bg: '#97ff8e'}}
           icon={
             task.isChecked ?
               <GrCheckboxSelected /> :
@@ -44,9 +43,9 @@ const Task = ({ key, task }) => {
           onClick={(e) => handleCheckTask(e)}
         />
         <Box textAlign='center' bg='cornflowerblue' w='110%' h='130%' minW='max-content' borderRadius={5}>
-          <Heading paddingTop={1} size='md' paddingLeft={1.5}>{task.description}</Heading>
+          <Text paddingTop={1} fontSize='xl' paddingLeft={1.5} decoration={task.isChecked ? 'line-through' : 'none'}>{task.description}</Text>
         </Box>
-        <IconButton variant='outline' colorScheme={!colorMode} bg='light' icon={<GrTrash />} onClick={(e) => handleDeleteTask(e)} />
+        <IconButton variant='outline' colorScheme={!colorMode} bg='light' icon={<GrTrash />} onClick={(e) => handleDeleteTask(e)} _hover={{bg: '#ffaaa2'}} />
       </HStack>
     </Box>
   )

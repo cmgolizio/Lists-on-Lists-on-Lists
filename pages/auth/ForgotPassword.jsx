@@ -25,7 +25,7 @@ const ForgotPassword = () => {
 
   const emailRef = useRef();
 
-  const { resetPassword } = useAuth();
+  const { resetPassword, userColor } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <Center h='100%'>
+    <Center h='100%' py={20} bg={userColor}>
       <VStack>
         {error && <Alert status='error'><AlertIcon/>{error}</Alert>}
         {message && <Alert status='success'>{message}</Alert>}

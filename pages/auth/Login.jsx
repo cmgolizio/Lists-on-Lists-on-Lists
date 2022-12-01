@@ -26,7 +26,7 @@ const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const { login } = useAuth();
+  const { login, userColor } = useAuth();
 
   const router = useRouter();
 
@@ -45,7 +45,7 @@ const Login = () => {
   }
 
   return (
-    <Center h='100%' py={20}>
+    <Center h='100%' py={20} bg={userColor}>
       <VStack>
         {error && <Alert status='error'><AlertIcon/>{error}</Alert>}
         <Card justify='space-between'>

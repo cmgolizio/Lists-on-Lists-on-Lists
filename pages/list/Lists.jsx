@@ -71,7 +71,6 @@ const Lists = () => {
       minH='100vh'
       minW='100vw'
       paddingTop={20}
-      bg={userColor}
     >
       {/* <Center> */}
         <AddList />
@@ -93,7 +92,7 @@ const Lists = () => {
                   h='15rem'
                   w='20rem'
                   justify='center'
-                  bg='cornflowerblue'
+                  bg={userColor}
                   pos='relative'
                   borderRadius={5}
                 >

@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import {
   VStack,
-  HStack,
   Input,
-  InputRightElement,
   InputGroup,
   Button,
-  Center,
   Alert,
-  AlertIcon
+  AlertIcon,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useAuth } from '../../hooks/useAuth';
@@ -23,6 +21,9 @@ const AddListComponent = () => {
   const [inputData, setInputData] = useState(initialInputData);
   const [error, setError] = useState('');
   const { addList } = useAuth();
+
+  const inputAndButtonBg = useColorModeValue('dark', 'light');
+  const inputAndButtonColor = useColorModeValue('light', 'dark');
 
   const handleAddList = async (e) => {
     e.preventDefault();
@@ -61,7 +62,6 @@ const AddListComponent = () => {
   const handleSubmit = (e) => (inputData.title.length ? handleSuccess(e) : handleError(e));
 
   return (
-    // <Center minH='max-content' w='100%'>
     <VStack w='20rem' minH='100%' justify='center' py={10}>
         {error && <Alert status='error'><AlertIcon/>{error}</Alert>}
         <InputGroup onKeyDown={(e) => handleEnter(e)}>
@@ -71,25 +71,22 @@ const AddListComponent = () => {
               onChange={(e) => setInputData({...inputData, title: e.target.value})}
               placeholder='Add a title'
               size='lg'
-              variant='ghost'
+              variant='filled'
+              bg={inputAndButtonBg}
+              color={inputAndButtonColor}
             />
-            {/* <Input
-              value={inputData.description}
-              onChange={(e) => setInputData({...inputData, description: e.target.value})}
-              placeholder="Describe the list's purpose"
-              size='lg'
-              variant='ghost'
-            /> */}
-            {/* <Button onClick={(e) => handleSubmit(e)}> */}
-            {/* <InputRightElement> */}
-              <Button type='submit' my={2} minW='max-content'>
+              <Button
+                type='submit'
+                my={2}
+                minW='max-content'
+                bg={inputAndButtonBg}
+                color={inputAndButtonColor}
+              >
                 Create List
               </Button>
-            {/* </InputRightElement> */}
           </form>
         </InputGroup>
       </VStack>
-    // </Center>
   );
 };
 

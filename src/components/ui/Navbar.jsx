@@ -10,7 +10,7 @@ import NavbarBtnGroupLeft from "./NavbarBtnGroupLeft";
 const Navbar = () => {
   const [navText, setNavText] = useState('');
   const [error, setError] = useState('');
-  const { logout, currentUser, lists, activeList } = useAuth();
+  const { logout, currentUser, lists, activeList, userColor } = useAuth();
 
   const router = useRouter();
 
@@ -55,7 +55,7 @@ const Navbar = () => {
       top='0vh'
       h='3.5rem'
       w='100%'
-      bg='cornflowerblue'
+      bg={userColor}
       align='center'
       justify='center'
     >

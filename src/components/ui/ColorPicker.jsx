@@ -28,7 +28,7 @@ const ColorPicker = () => {
     "yellow.500",
     "orange.500",
     "purple.500",
-    "pink.500"
+    "pink.500",
   ];
 
   return (

@@ -54,7 +54,7 @@ const Dashboard = () => {
               <Text>{currentUser.email}</Text>
             </HStack>
             <HStack justify='space-between' px='3rem'>
-              <Text>Background Color: </Text>
+              <Text>Accent Color: </Text>
               <ColorPicker />
             </HStack>
           </CardBody>

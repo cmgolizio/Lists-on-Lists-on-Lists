@@ -10,11 +10,10 @@ export default function Home() {
     <Flex
       textAlign='center'
       fontSize='xl'
-      h='100vh'
-      w='100vw'
+      maxH='100vh'
+      maxW='100vw'
       align='center'
       justify='center'
-      py='6rem'
       bg={userColor}
     >
       <Dashboard />

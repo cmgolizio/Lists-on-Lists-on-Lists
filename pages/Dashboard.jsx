@@ -40,7 +40,7 @@ const Dashboard = () => {
 
   if (!currentUser) return <Login />
   return (
-    <Center pos='absolute' top={20}>
+    <Center pos='absolute' top={20} paddingBottom='15rem'>
       <VStack>
         {error && <Alert status='error'><AlertIcon/>{error}</Alert>}
         <Card w='50rem'>

@@ -11,6 +11,7 @@ import {
   MenuList,
   MenuButton,
   MenuItem,
+  VStack,
 } from '@chakra-ui/react';
 import {
   collection,
@@ -33,37 +34,48 @@ const Lists = () => {
   const { currentUser, lists, setLists, userColor } = useAuth();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const router = useRouter();
-
+  let type;
   useEffect(() => {
     setLists(null);
     const listsCollRef = collection(db, `users/${currentUser?.uid}/lists`);
     const q = query(listsCollRef, orderBy('created'));
+    // const q = query(listsCollRef);
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setLists(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id, created: doc.data().created?.toDate().getTime()})))
+      // setLists(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})))
     });
 
     return unsubscribe;
   }, []);
 
-  const handleMenuTarget = async (e, list) => {
+  useEffect(() => {
+    console.log(targetedList.title);
+  }, [targetedList])
+
+  const handleMenuTarget = async (e, list, type) => {
     e.preventDefault();
-
-    await setTargetedList(list);
-    return onOpen();
+    switch(type) {
+      case 'delete': {
+        await setTargetedList(list);
+        return onOpen()
+      }
+      case 'edit': {
+        await setTargetedList(list);
+        return setShowEditTitle(true)
+      }
+    }
   };
-
   return (
-    <Box
-      h='max-content'
-      w='100%'
-      pos='absolute'
-      top={10}
+    <VStack
+      minH='100vh'
+      minW='100vw'
+      paddingTop={20}
       bg={userColor}
     >
-      <Center>
+      {/* <Center> */}
         <AddList />
-      </Center>
+      {/* </Center> */}
       <Flex
         dir='row'
         wrap='wrap'
@@ -78,27 +90,14 @@ const Lists = () => {
           (lists.map(list => (
                 <Flex
                   key={list.id}
-                  m='2rem'
                   h='15rem'
                   w='20rem'
                   justify='center'
                   bg='cornflowerblue'
                   pos='relative'
-                  borderRadius='3rem'
+                  borderRadius={5}
                 >
-                  {showEditTitle ?
-                  (
-                    <Box
-                      w='85%'
-                      pos='absolute'
-                      top='50%'
-                      left='50%'
-                      transform='translate(-50%, -50%)'
-                    >
-                      <EditListTitle target={list} />
-                    </Box>
-                  ) :
-                  (<Heading
+                  <Heading
                     size='xl'
                     as='button'
                     onClick={() => router.push({
@@ -109,25 +108,22 @@ const Lists = () => {
                   }, '/list/ActiveList')}
                   >
                     {list.title}
-                  </Heading>)}
+                  </Heading>
                   <Box
                     h='100%'
                     pos='absolute'
                     top={3}
                     right={3}
-                    // isOpen={isOpen}
                   >
                     <Menu>
                       <MenuButton
                         as={IconButton}
-                        // isActive={tisOpen}
-                        onClick={(e) => handleMenuTarget(e, list)}
                         icon={<GrMoreVertical />}
                         variant='ghost'
                         isRound
                       />
                       <MenuList>
-                        <MenuItem icon={<GrTrash />} command='⌘D' onClick={onOpen}>
+                        <MenuItem icon={<GrTrash />} command='⌘D' onClick={(e) => handleMenuTarget(e, list, type='delete')}>
                           Delete
                         </MenuItem>
                         <DeleteListConfirm
@@ -135,16 +131,29 @@ const Lists = () => {
                           isOpen={isOpen}
                           targetedList={targetedList}
                         />
-                        <MenuItem icon={<GrEdit />} command='⌘E' onClick={() => isOpen && setShowEditTitle(true)}>
+                        <MenuItem icon={<GrEdit />} command='⌘E' onClick={(e) => handleMenuTarget(e, list, type='edit')}>
                           Edit Title
                         </MenuItem>
+                        <Box
+                          w='85%'
+                          pos='absolute'
+                          top='50%'
+                          left='50%'
+                          transform='translate(-50%, -50%)'
+                        >
+                          <EditListTitle
+                            target={targetedList}
+                            showEditTitle={showEditTitle}
+                            setShowEditTitle={setShowEditTitle}
+                          />
+                        </Box>
                       </MenuList>
                     </Menu>
                   </Box>
               </Flex>
               )))}
       </Flex>
-    </Box>
+    </VStack>
   );
 };
 

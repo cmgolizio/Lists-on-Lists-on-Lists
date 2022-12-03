@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, { useRef, memo } from 'react'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -17,10 +17,8 @@ const DeleteListConfirm = ({ onClose, isOpen, targetedList }) => {
 
   const cancelRef = useRef();
 
-  const handleDeleteList = (e, list) => {
-    e.preventDefault();
-
-    deleteList(list);
+  const handleDeleteList = async (list) => {
+    await deleteList(list);
     onClose();
   };
   return (
@@ -29,7 +27,6 @@ const DeleteListConfirm = ({ onClose, isOpen, targetedList }) => {
       onClose={onClose}
       isOpen={isOpen}
       isCentered
-      isLazy
     >
       <AlertDialogOverlay />
       <AlertDialogContent>
@@ -42,7 +39,7 @@ const DeleteListConfirm = ({ onClose, isOpen, targetedList }) => {
           <Button ref={cancelRef} onClick={onClose}>
             No
           </Button>
-          <Button onClick={(e) => handleDeleteList(e, targetedList.title)}>
+          <Button onClick={(e) => handleDeleteList(targetedList.title)}>
             Yes
           </Button>
         </AlertDialogFooter>
@@ -51,4 +48,4 @@ const DeleteListConfirm = ({ onClose, isOpen, targetedList }) => {
   )
 }
 
-export default DeleteListConfirm
+export default memo(DeleteListConfirm)

@@ -19,6 +19,7 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  serverTimestamp
 } from 'firebase/firestore';
 
 import { auth, db } from '../firebase/firebase';
@@ -101,7 +102,21 @@ const deleteList = async (listTitle) => {
         await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${listTitle}/tasks/${taskIDs[i]}`));
       }
     })
-}
+};
+
+const updateListTitle = async (targetedList, newTitle) => {
+  // const prevTargetedRef = doc(db, `users/${currentUser.uid}/lists`, `${targetedList.title}`);
+  // await updateDoc(prevTargetedRef, {
+  //   created: new Date()
+  // })
+  // await setDoc(doc(db, `users/${currentUser.uid}/lists`, newTitle), targetedList);
+
+  // const newTargetedRef = doc(db, `users/${currentUser.uid}/lists`, `${newTitle}`);
+  // await updateDoc(newTargetedRef, {
+  //   title: newTitle,
+  // });
+  // await deleteList(targetedList.title);
+};
 
 const deleteTask = async (taskID) => {
   await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks`, `${taskID}`));
@@ -130,6 +145,7 @@ const checkTask = async (taskID, isChecked) => {
         lists,
         setLists,
         deleteList,
+        updateListTitle,
         tasks,
         setTasks,
         userColor,

@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { useAuth } from "../../hooks/useAuth";
-import NavbarBtnGroupLeft from "./NavbarBtnGroupLeft";
 import NavbarButton from "./NavbarButton";
 
 const Navbar = () => {

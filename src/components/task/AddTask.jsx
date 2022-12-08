@@ -63,7 +63,7 @@ const AddTask = () => {
   const handleSubmit = (e) => (description.length ? handleSuccess(e) : handleError(e));
 
   return (
-    <VStack>
+    <VStack w='20rem'>
       {error && <Alert status="error"><AlertIcon />{error}</Alert>}
       <InputGroup w='100%' onKeyDown={(e) => handleEnter(e)}>
         <Input
@@ -81,7 +81,7 @@ const AddTask = () => {
           variant='outline'
           h='100%'
         >
-          <Button w='110%' bg={inputButtonBg} color={inputButtonColor} onClick={(e) => handleSubmit(e)}>Add</Button>
+          <Button w='110%' h='100%' bg={inputButtonBg} color={inputButtonColor} onClick={(e) => handleSubmit(e)}>Add</Button>
         </InputRightElement>
       </InputGroup>
     </VStack>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Popover,
   PopoverTrigger,
@@ -17,7 +17,7 @@ import {
 import { useAuth } from '../../hooks/useAuth';
 
 const ColorPicker = () => {
-  const { userColor, setUserColor } = useAuth();
+  const { userColor, setUserColor, updateUserColor } = useAuth();
   const colors = [
     "gray.500",
     "red.500",
@@ -30,6 +30,11 @@ const ColorPicker = () => {
     "purple.500",
     "pink.500",
   ];
+
+  useEffect(() => {
+    updateUserColor(userColor);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userColor]);
 
   return (
     <Center marginTop={5}>

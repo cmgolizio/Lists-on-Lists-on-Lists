@@ -19,7 +19,6 @@ import {
   updateDoc,
   doc,
   deleteDoc,
-  serverTimestamp
 } from 'firebase/firestore';
 
 import { auth, db } from '../firebase/firebase';
@@ -72,11 +71,19 @@ export const AuthContextProvider = ({ children }) => {
     await setDoc(doc(db, "users", userID), {
       email: email,
       id: userID,
-      bgColor: userColor,
+      userColor: userColor,
     });
   };
 
   // ** Database functions ** //
+
+const updateUserColor = async (color) => {
+  const userRef = doc(db, `users/${currentUser.uid}`);
+
+  await updateDoc(userRef, {
+    userColor: color
+  })
+};
 
 const addList = async (list) => {
   const userRef = doc(db, `users/${currentUser.uid}`);
@@ -162,6 +169,7 @@ const checkTask = async (taskID, isChecked) => {
         addTask,
         activeList,
         setActiveList,
+        updateUserColor,
       }}
     >
       {!isLoading && children}

@@ -12,13 +12,18 @@ const config = {
 
 export const theme = extendTheme({
   styles: {
-    global: {
+    global: (props) => ({
       "html, body": {
         p: 0,
         m: 0,
         textAlign: "center",
+        color: props.colorMode === "dark" ? "light" : "dark",
+        bg: props.colorMode === "dark" ? "dark" : "light",
       },
-    },
+      "*::placeholder": {
+        color: props.colorMode,
+      },
+    }),
   },
   components: {
     Popover: {

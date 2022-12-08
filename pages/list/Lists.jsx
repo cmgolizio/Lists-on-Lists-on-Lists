@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -12,6 +12,7 @@ import {
   MenuButton,
   MenuItem,
   VStack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   collection,
@@ -35,23 +36,24 @@ const Lists = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const router = useRouter();
   let type;
+
+  const listColor = useColorModeValue('light', 'dark');
+
   useEffect(() => {
     setLists(null);
     const listsCollRef = collection(db, `users/${currentUser?.uid}/lists`);
     const q = query(listsCollRef, orderBy('created'));
-    // const q = query(listsCollRef);
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setLists(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id, created: doc.data().created?.toDate().getTime()})))
-      // setLists(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})))
     });
 
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    console.log(targetedList.title);
-  }, [targetedList])
+  // useEffect(() => {
+  //   console.log(targetedList.title);
+  // }, [targetedList])
 
   const handleMenuTarget = async (e, list, type) => {
     e.preventDefault();
@@ -72,9 +74,9 @@ const Lists = () => {
       minW='100vw'
       paddingTop={20}
     >
-      {/* <Center> */}
+      <Center>
         <AddList />
-      {/* </Center> */}
+      </Center>
       <Flex
         dir='row'
         wrap='wrap'
@@ -92,9 +94,15 @@ const Lists = () => {
                   h='15rem'
                   w='20rem'
                   justify='center'
-                  bg={userColor}
+                  // bg={userColor}
+                  bg={listColor}
+                  // color={listColor}
+                  color='dark'
                   pos='relative'
                   borderRadius={5}
+                  boxShadow='0px 45px 50px -25px rgba(22,22,29,0.75)'
+                  mx={5}
+                  my={10}
                 >
                   <Heading
                     size='xl'
@@ -122,7 +130,7 @@ const Lists = () => {
                         isRound
                       />
                       <MenuList>
-                        <MenuItem icon={<GrTrash />} command='⌘D' onClick={(e) => handleMenuTarget(e, list, type='delete')}>
+                        <MenuItem icon={<GrTrash />} command='⌘D' onClick={(e) => handleMenuTarget(e, list, 'delete')}>
                           Delete
                         </MenuItem>
                         <DeleteListConfirm
@@ -130,7 +138,7 @@ const Lists = () => {
                           isOpen={isOpen}
                           targetedList={targetedList}
                         />
-                        <MenuItem icon={<GrEdit />} command='⌘E' onClick={(e) => handleMenuTarget(e, list, type='edit')}>
+                        <MenuItem icon={<GrEdit />} command='⌘E' onClick={(e) => handleMenuTarget(e, list, 'edit')}>
                           Edit Title
                         </MenuItem>
                         <Box

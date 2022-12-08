@@ -32,12 +32,15 @@ import { db } from '../../src/firebase/firebase';
 const Lists = () => {
   const [showEditTitle, setShowEditTitle] = useState(false);
   const [targetedList, setTargetedList] = useState('');
-  const { currentUser, lists, setLists, userColor } = useAuth();
+  const { currentUser, lists, setLists, userColor, modeColor, notModeColor } = useAuth();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const router = useRouter();
   let type;
 
-  const listColor = useColorModeValue('light', 'dark');
+  const shadowColor = useColorModeValue(
+    '0px 45px 50px -25px rgba(22,22,29,0.75)',
+    '0px 45px 50px -25px rgba(248,248,255,0.75)'
+  );
 
   useEffect(() => {
     setLists(null);
@@ -94,13 +97,11 @@ const Lists = () => {
                   h='15rem'
                   w='20rem'
                   justify='center'
-                  // bg={userColor}
-                  bg={listColor}
-                  // color={listColor}
-                  color='dark'
+                  bg={modeColor}
+                  color={notModeColor}
+                  boxShadow={shadowColor}
                   pos='relative'
                   borderRadius={5}
-                  boxShadow='0px 45px 50px -25px rgba(22,22,29,0.75)'
                   mx={5}
                   my={10}
                 >

@@ -13,34 +13,10 @@ const Navbar = () => {
     profile: false,
     closeList: false,
   });
-  const { logout, currentUser, lists, activeList, userColor, setTasks, setActiveList } = useAuth();
+  const { logout, currentUser, lists, activeList, userColor, setTasks, setActiveList, modeColor, notModeColor } = useAuth();
   const router = useRouter();
-
   const navBg = useColorModeValue('dark', 'light');
   const themeSwitchBg = useColorModeValue('light', 'dark');
-
-  // const handleNavText = React.useCallback(() => {
-  //   if (!currentUser) {
-  //     setNavText('');
-  //     if (!activeList) {
-  //       if (!lists || lists.length === 0) {
-  //         setNavText('Lists (0)');
-  //       } else {
-  //         setNavText(`Lists (${lists.length})`);
-  //       }
-  //     } else {
-  //       if (!activeList.tasks || activeList.tasks.length === 0) {
-  //         setNavText('Tasks (0)');
-  //       } else {
-  //         setNavText(`Tasks (${activeList.tasks.length})`);
-  //       }
-  //     }
-  //   }
-  // }, [activeList, currentUser, lists]);
-
-  // useEffect(() => {
-  //   handleNavText();
-  // }, [handleNavText])
 
   // ** HANDLER FUNCTIONS ** //
   const handleLogout = async (e) => {
@@ -97,11 +73,10 @@ const Navbar = () => {
 
   return (
     <Flex
-      pos='absolute'
+      pos='relative'
       top='0vh'
       h='3.5rem'
       w='100%'
-      // bg={userColor}
       bg={navBg}
       align='center'
       justify='center'
@@ -109,9 +84,7 @@ const Navbar = () => {
       <HStack justify='center'>
         <HStack
           pos='absolute'
-          top={2}
           left={3}
-          align='space-between'
         >
           {showNavBtns.profile && <NavbarButton label='Profile' handler={handleToDashboard} />}
           {showNavBtns.closeList && <NavbarButton label='All Lists' handler={handleCloseList} />}
@@ -119,10 +92,8 @@ const Navbar = () => {
         <HStack
           pos='absolute'
           right={3}
-          minW='max-content'
-          justify='space-evenly'
         >
-          <ThemeSwitcher bg={themeSwitchBg} />
+          <ThemeSwitcher bg={modeColor} _hover={{ bg: modeColor }} />
           <NavbarButton label='Logout' handler={handleLogout} />
         </HStack>
       </HStack>

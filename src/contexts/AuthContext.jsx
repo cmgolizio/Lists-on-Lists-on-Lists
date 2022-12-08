@@ -20,6 +20,7 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore';
+import { useColorModeValue } from "@chakra-ui/react";
 
 import { auth, db } from '../firebase/firebase';
 
@@ -145,6 +146,9 @@ const checkTask = async (taskID, isChecked) => {
     return unsubscribe;
   }, []);
 
+  const modeColor = useColorModeValue('light', 'dark');
+  const notModeColor = useColorModeValue('dark', 'light');
+
   return (
     <AuthContext.Provider
       value={{
@@ -170,6 +174,8 @@ const checkTask = async (taskID, isChecked) => {
         activeList,
         setActiveList,
         updateUserColor,
+        modeColor,
+        notModeColor,
       }}
     >
       {!isLoading && children}

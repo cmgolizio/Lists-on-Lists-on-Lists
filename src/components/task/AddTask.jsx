@@ -8,7 +8,6 @@ import {
   Button,
   Alert,
   AlertIcon,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useAuth } from "../../hooks/useAuth";
@@ -17,10 +16,7 @@ const AddTask = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
 
-  const inputButtonBg = useColorModeValue('dark', 'light');
-  const inputButtonColor = useColorModeValue('light', 'dark');
-
-  const { addTask } = useAuth();
+  const { addTask, modeColor, notModeColor } = useAuth();
 
   const handleAddTask = async (e) => {
     e.preventDefault();
@@ -69,8 +65,8 @@ const AddTask = () => {
         <Input
           value={description}
           errorBorderColor='crimson'
-          bg={inputButtonBg}
-          color={inputButtonColor}
+          bg={notModeColor}
+          color={modeColor}
           isInvalid={error.length ? true : false}
           onChange={(e) => handleInputChange(e)}
           placeholder='Add a Task'
@@ -80,8 +76,9 @@ const AddTask = () => {
         <InputRightElement
           variant='outline'
           h='100%'
+          w='3.5rem'
         >
-          <Button w='110%' h='100%' bg={inputButtonBg} color={inputButtonColor} onClick={(e) => handleSubmit(e)}>Add</Button>
+          <Button h='100%' w='100%' borderLeft='1px' borderColor={modeColor} bg={notModeColor} color={modeColor} onClick={(e) => handleSubmit(e)}>Add</Button>
         </InputRightElement>
       </InputGroup>
     </VStack>

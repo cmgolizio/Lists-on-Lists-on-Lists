@@ -9,12 +9,8 @@ export const ThemeSwitcher = props => {
 
   return (
     <IconButton
-      // size={['sm', null, null, "lg"]}
       fontSize="lg"
       aria-label={`Switch to ${text} mode`}
-      variant="outline"
-      // color="current"
-      // bg='transparent'
       marginLeft={2}
       onClick={toggleColorMode}
       icon={<SwitchIcon />}

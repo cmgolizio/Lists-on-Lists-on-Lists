@@ -21,7 +21,10 @@ export const theme = extendTheme({
         bg: props.colorMode === "dark" ? "dark" : "light",
       },
       "*::placeholder": {
-        color: props.colorMode,
+        color:
+          props.colorMode === "dark"
+            ? "0px 45px 50px -25px rgba(248,248,255,0.75)"
+            : "0px 45px 50px -25px rgba(22,22,29,0.75)",
       },
     }),
   },

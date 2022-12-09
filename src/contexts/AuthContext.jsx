@@ -31,6 +31,7 @@ export const AuthContextProvider = ({ children }) => {
   const [lists, setLists] = useState([]);
   const [activeList, setActiveList] = useState();
   const [tasks, setTasks] = useState([]);
+  const [subTasks, setSubTasks] = useState([]);
   const [userColor, setUserColor] = useState('dark');
   const [isLoading, setLoading] = useState(true);
 
@@ -137,6 +138,18 @@ const checkTask = async (taskID, isChecked) => {
   })
 };
 
+const expandTask = async (taskID, isExpanded) => {
+  const taskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${taskID}`);
+  await updateDoc(taskRef, {
+    isExpanded: !isExpanded,
+  })
+};
+
+const addSubTask = async (taskID, subTask) => {
+  const taskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${taskID}`);
+  await setDoc(doc(taskRef, "subTasks", subTask.id), subTask);
+};
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       setCurrentUser(user);
@@ -159,9 +172,12 @@ const checkTask = async (taskID, isChecked) => {
         updateListTitle,
         tasks,
         setTasks,
+        subTasks,
+        setSubTasks,
         userColor,
         setUserColor,
         deleteTask,
+        expandTask,
         checkTask,
         login,
         logout,
@@ -171,6 +187,7 @@ const checkTask = async (taskID, isChecked) => {
         changePassword,
         addList,
         addTask,
+        addSubTask,
         activeList,
         setActiveList,
         updateUserColor,

@@ -10,30 +10,29 @@ import {
   AlertIcon,
 } from "@chakra-ui/react";
 
-import { useAuth } from "../../hooks/useAuth";
-import AddSubTask from "./sub-tasks/AddSubTask";
+import { useAuth } from "../../../hooks/useAuth";
 
-const AddTask = () => {
-  const [description, setDescription] = useState("");
+const AddSubTask = ({ taskID, shouldShowInput }) => {
+  const [subTitle, setSubTitle] = useState("");
   const [error, setError] = useState("");
 
-  const { addTask, modeColor, notModeColor } = useAuth();
+  const { addSubTask, modeColor, notModeColor } = useAuth();
 
-  const handleAddTask = async (e) => {
+  const handleAddSubTask = async (e) => {
     e.preventDefault();
     setError("");
 
-    let newTask = {
+    let newSubTask = {
         id: uuidv4(),
         isChecked: false,
         created: new Date(),
-        description: description,
-        isExpanded: false,
+        title: subTitle,
     };
 
-    setDescription("");
+    setSubTitle("");
 
-    await addTask(newTask);
+    await addSubTask(taskID, newSubTask);
+    shouldShowInput(false);
   };
 
   const handleError = (e) => {
@@ -49,44 +48,44 @@ const AddTask = () => {
 
   const handleInputChange = (e) => {
     let value = e.target.value;
-    setDescription(value);
+    setSubTitle(value);
   };
 
   const handleSuccess = async (e) => {
     e.preventDefault();
 
-    await handleAddTask(e);
+    await handleAddSubTask(e, taskID);
   };
 
-  const handleSubmit = (e) => (description.length ? handleSuccess(e) : handleError(e));
+  const handleSubmit = (e) => (subTitle.length ? handleSuccess(e) : handleError(e));
 
   return (
-    <VStack w='20rem'>
+    <VStack>
       {error && <Alert status="error"><AlertIcon />{error}</Alert>}
       <InputGroup w='100%' onKeyDown={(e) => handleEnter(e)}>
         <Input
-          value={description}
+          value={subTitle}
           errorBorderColor='crimson'
-          bg={notModeColor}
-          color={modeColor}
-          _hover={{bg: 'gray.300', _placeholder: modeColor, color: modeColor}}
-          _focus={{bg: notModeColor, color: modeColor}}
+          bg={modeColor}
+          color={notModeColor}
+          _hover={{bg: 'gray.300', _placeholder: notModeColor, color: notModeColor}}
+          _focus={{bg: modeColor, color: notModeColor}}
           isInvalid={error.length ? true : false}
           onChange={(e) => handleInputChange(e)}
-          placeholder='Add a Task'
-          size='lg'
+          placeholder='Add a Subtask'
+          size='sm'
           variant='ghost'
         />
         <InputRightElement
           variant='outline'
           h='100%'
-          w='3.5rem'
+          w='2rem'
         >
-          <Button h='100%' w='100%' borderLeft='1px' borderColor={modeColor} bg={notModeColor} color={modeColor} onClick={(e) => handleSubmit(e)}>Add</Button>
+          <Button h='100%' w='100%' borderLeft='1px' borderColor={notModeColor} bg={modeColor} color={notModeColor} onClick={(e) => handleSubmit(e)}>Add</Button>
         </InputRightElement>
       </InputGroup>
     </VStack>
   );
 };
 
-export default AddTask;
+export default AddSubTask;

@@ -26,12 +26,12 @@ const AddListComponent = () => {
     setError('');
 
     let newList = {
-        listID: uuidv4(),
-        title: inputData.title,
-        description: inputData.description,
-        created: new Date(),
-        isActive: false,
-      };
+      listID: uuidv4(),
+      title: inputData.title,
+      description: inputData.description,
+      created: new Date(),
+      isActive: false,
+    };
 
     setInputData(initialInputData);
 

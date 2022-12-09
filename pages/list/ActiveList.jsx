@@ -29,6 +29,10 @@ const ActiveList = () => {
   };
 
   useEffect(() => {
+    router.prefetch('/list/Lists');
+  }, []);
+
+  useEffect(() => {
     getActiveList();
   }, []);
 
@@ -38,7 +42,7 @@ const ActiveList = () => {
       minH='100vh'
       paddingTop={20}
     >
-      <Box paddingBottom={2}>
+      <Box mb={20}>
         <Heading  size='3xl'>
           {!activeList ? null : activeList.title}
         </Heading>

@@ -7,7 +7,12 @@ const NavbarButton = (props) => {
   const { modeColor, notModeColor } = useAuth();
   return (
     <Box minH='max-content' minW='max-content'>
-      <Button bg={modeColor} color={notModeColor} onClick={(e) => props.handler(e)}>{props.label}</Button>
+      <Button
+        bg={modeColor}
+        color={notModeColor}
+        _hover={{ bg: notModeColor, color: modeColor }}
+        onClick={(e) => props.handler(e)}>{props.label}
+      </Button>
     </Box>
   );
 };

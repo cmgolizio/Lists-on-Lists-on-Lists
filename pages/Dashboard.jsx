@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Center,
   VStack,
@@ -38,6 +38,17 @@ const Dashboard = () => {
     }
   };
 
+  const goToLists = (e) => {
+    e.preventDefault();
+
+    router.push('/list/Lists');
+  };
+
+  useEffect(() => {
+    router.prefetch('/list/Lists');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   if (!currentUser) return <Login />
   return (
     <Center pos='absolute' top={20} paddingBottom='15rem'>
@@ -46,7 +57,7 @@ const Dashboard = () => {
         <Card w='50rem'>
           <CardHeader>
             <Heading size='xl'>Profile</Heading>
-            <Button top={3} onClick={() => router.push('/list/Lists')}>My Lists</Button>
+            <Button top={3} onClick={(e) => goToLists(e)}>My Lists</Button>
           </CardHeader>
           <CardBody>
             <HStack justify='space-between' px='3rem'>

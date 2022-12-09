@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Center,
   Card,
@@ -42,7 +42,11 @@ const Login = () => {
       setError('Failed to log in.');
     }
     setLoading(false);
-  }
+  };
+
+  useEffect(() => {
+    router.prefetch('/');
+  }, [])
 
   return (
     <Center h='100%' py={20}>

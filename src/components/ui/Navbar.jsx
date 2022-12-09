@@ -13,10 +13,18 @@ const Navbar = () => {
     profile: false,
     closeList: false,
   });
-  const { logout, currentUser, lists, activeList, userColor, setTasks, setActiveList, modeColor, notModeColor } = useAuth();
+  const {
+    logout,
+    currentUser,
+    lists,
+    activeList,
+    userColor,
+    setTasks,
+    setActiveList,
+    modeColor,
+    notModeColor
+  } = useAuth();
   const router = useRouter();
-  const navBg = useColorModeValue('dark', 'light');
-  const themeSwitchBg = useColorModeValue('light', 'dark');
 
   // ** HANDLER FUNCTIONS ** //
   const handleLogout = async (e) => {
@@ -77,7 +85,7 @@ const Navbar = () => {
       top='0vh'
       h='3.5rem'
       w='100%'
-      bg={navBg}
+      bg={notModeColor}
       align='center'
       justify='center'
     >
@@ -93,8 +101,8 @@ const Navbar = () => {
           pos='absolute'
           right={3}
         >
-          <ThemeSwitcher bg={modeColor} _hover={{ bg: modeColor }} />
-          <NavbarButton label='Logout' handler={handleLogout} />
+          <ThemeSwitcher bg={modeColor} _hover={{ bg: notModeColor, color: modeColor }} />
+          {currentUser && <NavbarButton label='Logout' handler={handleLogout} />}
         </HStack>
       </HStack>
     </Flex>

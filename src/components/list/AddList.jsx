@@ -7,7 +7,6 @@ import {
   Button,
   Alert,
   AlertIcon,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useAuth } from '../../hooks/useAuth';
@@ -20,10 +19,7 @@ const initialInputData = {
 const AddListComponent = () => {
   const [inputData, setInputData] = useState(initialInputData);
   const [error, setError] = useState('');
-  const { addList } = useAuth();
-
-  const inputAndButtonBg = useColorModeValue('dark', 'light');
-  const inputAndButtonColor = useColorModeValue('light', 'dark');
+  const { addList, modeColor, notModeColor } = useAuth();
 
   const handleAddList = async (e) => {
     e.preventDefault();
@@ -72,15 +68,18 @@ const AddListComponent = () => {
               placeholder='Add a title'
               size='lg'
               variant='filled'
-              bg={inputAndButtonBg}
-              color={inputAndButtonColor}
+              bg={notModeColor}
+              color={modeColor}
+              _hover={{bg: 'gray.200', _placeholder: modeColor, color: modeColor}}
+              _focus={{bg: notModeColor, color: modeColor}}
             />
               <Button
                 type='submit'
                 my={2}
                 minW='max-content'
-                bg={inputAndButtonBg}
-                color={inputAndButtonColor}
+                bg={notModeColor}
+                color={modeColor}
+                _hover={{bg: notModeColor, color: modeColor}}
               >
                 Create List
               </Button>

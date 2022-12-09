@@ -67,6 +67,8 @@ const AddTask = () => {
           errorBorderColor='crimson'
           bg={notModeColor}
           color={modeColor}
+          _hover={{bg: 'gray.200', _placeholder: modeColor, color: modeColor}}
+          _focus={{bg: notModeColor, color: modeColor}}
           isInvalid={error.length ? true : false}
           onChange={(e) => handleInputChange(e)}
           placeholder='Add a Task'

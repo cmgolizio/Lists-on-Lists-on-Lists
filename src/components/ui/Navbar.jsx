@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { useAuth } from "../../hooks/useAuth";
 import NavbarButton from "./NavbarButton";
+import UndoButton from "./UndoButton";
 
 const Navbar = () => {
   const [navText, setNavText] = useState('');
@@ -101,6 +102,7 @@ const Navbar = () => {
           pos='absolute'
           right={3}
         >
+          <UndoButton />
           <ThemeSwitcher bg={modeColor} _hover={{ bg: notModeColor, color: modeColor }} />
           {currentUser && <NavbarButton label='Logout' handler={handleLogout} />}
         </HStack>

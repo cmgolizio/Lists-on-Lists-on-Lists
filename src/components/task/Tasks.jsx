@@ -4,7 +4,8 @@ import {
   collection,
   query,
   onSnapshot,
-  orderBy
+  orderBy,
+  Timestamp
 } from 'firebase/firestore';
 import {
   VStack,
@@ -29,7 +30,8 @@ const Tasks = () => {
     const q = query(tasksCollRef, orderBy('created', 'desc'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      setTasks(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id, created: doc.data().created?.toDate().getTime()})));
+      // setTasks(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id, created: (doc.data().created?.toDate().getTime())})));
+      setTasks(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
     });
 
     return unsubscribe;

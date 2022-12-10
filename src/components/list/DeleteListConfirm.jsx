@@ -17,10 +17,13 @@ const DeleteListConfirm = ({ onClose, isOpen, targetedList }) => {
 
   const cancelRef = useRef();
 
-  const handleDeleteList = async (list) => {
+  const handleDeleteList = async (e, list) => {
+    e.preventDefault();
+
     await deleteList(list);
     onClose();
   };
+
   return (
     <AlertDialog
       leastDestructiveRef={cancelRef}
@@ -39,7 +42,7 @@ const DeleteListConfirm = ({ onClose, isOpen, targetedList }) => {
           <Button ref={cancelRef} onClick={onClose}>
             No
           </Button>
-          <Button onClick={(e) => handleDeleteList(targetedList.title)}>
+          <Button onClick={(e) => handleDeleteList(e, targetedList)}>
             Yes
           </Button>
         </AlertDialogFooter>

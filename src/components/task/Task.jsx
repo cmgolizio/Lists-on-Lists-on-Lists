@@ -8,9 +8,8 @@ import {
   IconButton,
   Icon,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { ChevronUpIcon, ChevronDownIcon, AddIcon } from '@chakra-ui/icons';
+import { TriangleDownIcon, TriangleUpIcon, AddIcon } from '@chakra-ui/icons';
 import {
   GrTrash,
   GrCheckbox,
@@ -32,12 +31,11 @@ const Task = ({ key, task }) => {
     modeColor,
     notModeColor,
   } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDeleteTask = (e) => {
     e.preventDefault();
 
-    deleteTask(task.id);
+    deleteTask(task);
   };
 
   const handleCheckTask = (e) => {
@@ -48,6 +46,7 @@ const Task = ({ key, task }) => {
 
   const handleExpandTask = (e) => {
     e.preventDefault();
+    setShowSubTask(false);
 
     setIsExpanded(prev => !prev);
     expandTask(task.id, task.isExpanded);
@@ -74,30 +73,42 @@ const Task = ({ key, task }) => {
           onClick={(e) => handleCheckTask(e)}
         />
         <HStack align='center' justify='center' bg={notModeColor} w='110%' h='130%' minW='max-content' borderRadius={5} pos='relative'>
-          <IconButton
-            icon={<Icon as={AddIcon}/>}
-            color={modeColor}
-            variant='ghost'
+
+          <HStack
+            w='100%'
             pos='absolute'
-            left={2}
-            bottom={isExpanded && 1.5}
-            size='sm'
-            _hover={{bg: 'transparent'}}
-            _active={{bg: 'transparent'}}
-            onClick={(e) => handleShowAddSubTask(e)}
-          />
+            bottom={1.5}
+            align='center'
+            justify='space-evenly'
+            visibility={!isExpanded && 'hidden'}
+          >
+            {
+              showAddSubTask ?
+                (<AddSubTask taskID={task.id} shouldShowInput={setShowSubTask} />) :
+                (<IconButton
+                  icon={<Icon as={AddIcon}/>}
+                  color={modeColor}
+                  variant='ghost'
+                  size='sm'
+                  _hover={{bg: 'transparent'}}
+                  _active={{bg: 'transparent'}}
+                  onClick={(e) => handleShowAddSubTask(e)}
+                />)
+            }
+          </HStack>
+
+
           <Text color={modeColor} paddingTop={1} fontSize='xl' paddingLeft={1.5} decoration={task.isChecked ? 'line-through' : 'none'} pos={isExpanded ? 'absolute' : ''} top={1}>{task.description}</Text>
-          {showAddSubTask && <AddSubTask taskID={task.id} shouldShowInput={setShowSubTask} />}
           <IconButton
             color={modeColor}
             variant='ghost'
             pos='absolute'
             right={2}
             top={isExpanded && 0.25}
-            size='lg'
+            size='sm'
             _hover={{bg: 'transparent'}}
             _active={{bg: 'transparent'}}
-            icon={isExpanded ? <Icon as={ChevronUpIcon} /> : <Icon as={ChevronDownIcon} />}
+            icon={isExpanded ? <Icon as={TriangleUpIcon} /> : <Icon as={TriangleDownIcon} />}
             onClick={(e) => handleExpandTask(e)}
           />
         </HStack>

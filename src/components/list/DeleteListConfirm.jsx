@@ -2,12 +2,12 @@ import React, { useRef, memo } from 'react'
 import {
   AlertDialog,
   AlertDialogBody,
-  AlertDialogOverlay,
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogCloseButton,
   AlertDialogFooter,
   Button,
+  HStack
 } from '@chakra-ui/react';
 
 import { useAuth } from '../../hooks/useAuth';
@@ -31,24 +31,25 @@ const DeleteListConfirm = ({ onClose, isOpen, targetedList }) => {
       isOpen={isOpen}
       isCentered
     >
-      <AlertDialogOverlay />
       <AlertDialogContent>
         <AlertDialogHeader>Delete list?</AlertDialogHeader>
         <AlertDialogCloseButton />
         <AlertDialogBody>
-          {`Are you sure you want to delete ${targetedList.title}? This action cannot be undone`}
+          {`Are you sure you want to delete ${targetedList.title}?`}
         </AlertDialogBody>
         <AlertDialogFooter>
-          <Button ref={cancelRef} onClick={onClose}>
-            No
-          </Button>
-          <Button onClick={(e) => handleDeleteList(e, targetedList)}>
-            Yes
-          </Button>
+          <HStack spacing={2}>
+            <Button onClick={(e) => handleDeleteList(e, targetedList)}>
+              Yes
+            </Button>
+            <Button ref={cancelRef} onClick={onClose}>
+              No
+            </Button>
+          </HStack>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   )
 }
 
-export default memo(DeleteListConfirm)
+export default memo(DeleteListConfirm);

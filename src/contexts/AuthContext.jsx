@@ -102,21 +102,13 @@ const addTask = async (task) => {
 // ** see 'deleteTask' below for explanation of how 'deleteList' works ** //
 const deleteList = async (list) => {
   let newDeletedLists;
-  const tasksToDelete = [];
-
   const listRef = doc(db, `users/${currentUser.uid}/lists`, `${list.title}`);
 
-  const tasksRef = collection(db, `users/${currentUser.uid}/lists/${list.title}/tasks`);
-
-  const tasksSnapshot = await getDocs(tasksRef);
-  tasksSnapshot.forEach(doc => {
-    tasksToDelete.push(doc.data());
-  });
-
+  // !! this will add the newly deleted list to the local state of deletedLists Lol !! //
+  // !! this list containing all recently deleted lists is necessary for undo functionality !! //
   setDeletedLists(() => {
     let copy = deletedLists;
     const listCopy = list;
-    listCopy.tasks = tasksToDelete;
     if (copy === null) {
       newDeletedLists = [listCopy];
     } else {
@@ -126,17 +118,8 @@ const deleteList = async (list) => {
     return newDeletedLists;
   });
 
-  console.log(tasksToDelete);
-
-  for (let i = 0; i < tasksToDelete.length; i++) {
-    const individualTaskRefs = await doc(db, `users/${currentUser.uid}/lists/${list.title}/tasks/${tasksToDelete[i].id}`);
-    await deleteDoc(individualTaskRefs);
-  }
-
   await deleteDoc(listRef);
 };
-
-const undoDeleteList = async () => {};
 
 const updateListTitle = async (targetedList, newTitle) => {
   // const prevTargetedRef = doc(db, `users/${currentUser.uid}/lists`, `${targetedList.title}`);
@@ -154,7 +137,6 @@ const updateListTitle = async (targetedList, newTitle) => {
 
 const deleteTask = async (task) => {
   let newDeletedTasks;
-  const subTaskIDs = [];
 
   // ** set the state value by either: ** //
     // ** creating an array with the first/only entry being the task that was just deleted ** //
@@ -170,24 +152,27 @@ const deleteTask = async (task) => {
     return newDeletedTasks;
   });
 
-  // ** get all the subtasks of the deleted task ** //
-  const subTasksRef = collection(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${task.id}/subTasks`);
-  const subTasksSnapshot = await getDocs(subTasksRef);
-
-  // ** push each subtask into an array of the subtask IDs ** //
-  subTasksSnapshot.forEach(doc => {
-    subTaskIDs.push(doc.id);
-  });
-
-  // ** iterate through the subtaskIDs array ** //
-  for(let i = 0; i < subTaskIDs.length; i++) {
-    // ** create a new ref for each of the subTaskIDs ** //
-    const individualSubTaskRefs = await doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${task.id}/subTasks`, `${subTaskIDs[i]}`);
-    // ** delete each subTask doc from firestore using the subTaskID to query the DB ** //
-    await deleteDoc(individualSubTaskRefs);
-  }
-  // ** finally delete the actual task ** //
+  // ** delete the actual task ** //
   await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks`, `${task.id}`));
+};
+
+const undoDeleteList = async () => {
+  const undeletedList = deletedLists.pop();
+  const filteredDeletedLists = deletedLists.filter(list => (
+    list.listID !== undeletedList.listID
+  ));
+  console.log('AuthContext - undoDeleteList - UNDELETED LIST: ', undeletedList);
+
+
+
+
+  if (!deletedLists.length) {
+    await setDeletedLists(null);
+  } else {
+    await setDeletedLists(filteredDeletedLists);
+  }
+
+  await addList(undeletedList);
 };
 
 const undoDeleteTask = async () => {
@@ -250,7 +235,9 @@ const addSubTask = async (taskID, subTask) => {
         userColor,
         setUserColor,
         deleteTask,
+        undoDeleteList,
         undoDeleteTask,
+        deletedLists,
         deletedTasks,
         expandTask,
         checkTask,

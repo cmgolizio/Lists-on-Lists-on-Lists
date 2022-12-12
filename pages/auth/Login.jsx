@@ -37,7 +37,7 @@ const Login = () => {
       setError('');
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      router.push('/');
+      router.push('/', '/profile');
     } catch (error) {
       setError('Failed to log in.');
     }
@@ -46,7 +46,7 @@ const Login = () => {
 
   useEffect(() => {
     router.prefetch('/');
-  }, [])
+  }, [router])
 
   return (
     <Center h='100%' py={20}>

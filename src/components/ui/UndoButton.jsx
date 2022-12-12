@@ -5,14 +5,22 @@ import { RepeatClockIcon } from '@chakra-ui/icons';
 import { useAuth } from '../../hooks/useAuth';
 
 const UndoButton = () => {
-  const { undoDeleteTask, modeColor, notModeColor, deletedTasks } = useAuth();
+  const {
+    activeList,
+    undoDeleteList,
+    undoDeleteTask,
+    modeColor,
+    notModeColor,
+    deletedLists,
+    deletedTasks,
+  } = useAuth();
   return (
     <IconButton
       bg={modeColor}
       color={notModeColor}
-      _hover={{ bg: notModeColor, color: modeColor }}
-      disabled={deletedTasks === null}
-      onClick={undoDeleteTask}
+      _hover={{ bg: notModeColor, color: modeColor, border: '1px', borderColor: modeColor }}
+      disabled={activeList ? deletedTasks === null : deletedLists === null}
+      onClick={activeList ? undoDeleteTask : undoDeleteList}
       icon={<Icon as={RepeatClockIcon} />}
     />
   );

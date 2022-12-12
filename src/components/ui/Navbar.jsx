@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, HStack, Heading, Button, useColorModeValue } from "@chakra-ui/react";
+import { Flex, HStack, Text, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import { ThemeSwitcher } from "./ThemeSwitcher";
@@ -20,6 +20,7 @@ const Navbar = () => {
     lists,
     activeList,
     userColor,
+    tasks,
     setTasks,
     setActiveList,
     modeColor,
@@ -34,7 +35,7 @@ const Navbar = () => {
 
     try {
       await logout();
-      router.push('/auth/Login')
+      router.push('/auth/Login', '/login')
     } catch (error) {
       setError('Failed to log out.')
     }
@@ -44,7 +45,7 @@ const Navbar = () => {
     e.preventDefault();
     setActiveList(null)
 
-    router.push('/');
+    router.push('/', '/profile');
   };
 
   const handleCloseList = (e) => {
@@ -53,30 +54,57 @@ const Navbar = () => {
     setActiveList(null);
     setTasks(null);
 
-    router.push('/list/Lists');
+    router.push('/list/Lists', '/mylists');
   };
 
-  const handleSetShowBtns = async () => {
+  const handleSetShowBtns = () => {
     if (!currentUser) {
       setShowBtns({
         profile: false,
         closeList: false
       });
-    } else if (currentUser && activeList) {
+    } else if (router.pathname === '/' || router.pathname === '/profile') {
+      setShowBtns({
+        profile: false,
+        closeList: true,
+      });
+    } else if (!activeList && router.pathname === '/list/Lists') {
+      setActiveList({
+        profile: true,
+        closeList: false,
+      })
+    }else if (activeList) {
       setShowBtns({
         profile: true,
         closeList: true
       });
-    } else if (currentUser && !activeList) {
+    } else {
       setShowBtns({
-        profile: true,
-        closeList: false
-      });
+          profile: true,
+          closeList: false,
+        });
     }
   };
 
+  // const handleNavText = async () => {
+  //   if (!currentUser) {
+  //     setNavText('');
+  //     return;
+  //   }
+
+  //   if (router.pathname === '/list/Lists') {
+  //     // setNavText(`Lists: (${lists.length})`);
+  //     await setNavText(`You have ${lists.length} lists`);
+  //   } else if (router.pathname === '/list/ActiveList') {
+  //     // setNavText(`Tasks: (${tasks.length})`);
+  //     await setNavText(`Your list "${activeList.title}" has ${tasks.length} uncompleted tasks`);
+  //   }
+  // };
+
   useEffect(() => {
     handleSetShowBtns();
+    // handleNavText();
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeList, currentUser]);
 
@@ -96,14 +124,33 @@ const Navbar = () => {
           left={3}
         >
           {showNavBtns.profile && <NavbarButton label='Profile' handler={handleToDashboard} />}
-          {showNavBtns.closeList && <NavbarButton label='All Lists' handler={handleCloseList} />}
+          {showNavBtns.closeList && <NavbarButton label='Lists' handler={handleCloseList} />}
         </HStack>
+        {/* <Box
+          pos='absolute'
+          left='50%'
+          transform='translate(-50%, 0)'
+        >
+          <Text
+            color={modeColor}
+            fontSize='3xl'
+          >
+            {navText}
+          </Text>
+        </Box> */}
         <HStack
           pos='absolute'
           right={3}
         >
           <UndoButton />
-          <ThemeSwitcher bg={modeColor} _hover={{ bg: notModeColor, color: modeColor }} />
+          <ThemeSwitcher
+            bg={modeColor}
+            _hover={{
+              bg: notModeColor,
+              color: modeColor,
+              border: '1px',
+              borderColor: modeColor,
+            }} />
           {currentUser && <NavbarButton label='Logout' handler={handleLogout} />}
         </HStack>
       </HStack>

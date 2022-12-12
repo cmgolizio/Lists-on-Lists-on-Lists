@@ -47,7 +47,7 @@ const Signup = () => {
         emailRef.current.value,
         passwordRef.current.value,
       );
-      router.push('/')
+      router.push('/', '/profile')
     } catch (error) {
       setError('Failed to create account.');
       console.log('SIGNUP ERROR: ', error)

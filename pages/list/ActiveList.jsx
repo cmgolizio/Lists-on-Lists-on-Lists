@@ -24,7 +24,7 @@ const ActiveList = () => {
     if (docSnap.exists()) {
       setActiveList(docSnap.data());
     } else {
-      router.push('/list/Lists');
+      await router.push('/list/Lists', '/mylists');
     }
   };
 
@@ -42,12 +42,12 @@ const ActiveList = () => {
       minH='100vh'
       paddingTop={20}
     >
-      <Box mb={20}>
+      <Box mb={15}>
         <Heading  size='3xl'>
           {!activeList ? null : activeList.title}
         </Heading>
       </Box>
-      <AddTask />
+      {/* <AddTask /> */}
       <Box paddingTop='5rem' visibility={!tasks ? 'hidden' : 'visible'}>
         {!activeList ? null : <Tasks />}
       </Box>

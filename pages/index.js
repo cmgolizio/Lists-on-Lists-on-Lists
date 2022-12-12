@@ -8,8 +8,8 @@ export default function Home() {
     <Flex
       textAlign='center'
       fontSize='xl'
-      maxH='100vh'
-      maxW='100vw'
+      minH='100vh'
+      minW='100vw'
       align='center'
       justify='center'
     >

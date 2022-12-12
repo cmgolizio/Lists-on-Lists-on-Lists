@@ -18,7 +18,7 @@ export const ThemeSwitcher = props => {
       marginLeft={2}
       onClick={toggleColorMode}
       icon={<Icon as={SwitchIcon} />}
-      _hover={{ bg: notModeColor, color: modeColor }}
+      // _hover={{ bg: notModeColor, color: modeColor, border: '1px', borderColor: modeColor }}
       {...props}
     />
   );

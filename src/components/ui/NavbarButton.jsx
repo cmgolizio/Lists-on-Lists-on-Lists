@@ -10,7 +10,7 @@ const NavbarButton = (props) => {
       <Button
         bg={modeColor}
         color={notModeColor}
-        _hover={{ bg: notModeColor, color: modeColor }}
+        _hover={{ bg: notModeColor, color: modeColor, border: '1px', borderColor: modeColor }}
         onClick={(e) => props.handler(e)}>{props.label}
       </Button>
     </Box>

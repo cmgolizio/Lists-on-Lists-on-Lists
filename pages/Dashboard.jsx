@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { useAuth } from '../src/hooks/useAuth';
-import ColorPicker from '../src/components/ui/ColorPicker';
+// import ColorPicker from '../src/components/ui/ColorPicker';
 import Login from './auth/Login';
 
 const Dashboard = () => {
@@ -40,7 +40,7 @@ const Dashboard = () => {
 
   const goToLists = (e) => {
     e.preventDefault();
-
+    console.log('Dashboard - goToLists - ROUTER: ', router);
     router.push('/list/Lists');
   };
 
@@ -64,10 +64,10 @@ const Dashboard = () => {
               <Text>Email: </Text>
               <Text>{currentUser.email}</Text>
             </HStack>
-            <HStack justify='space-between' px='3rem'>
+            {/* <HStack justify='space-between' px='3rem'>
               <Text>Accent Color: </Text>
               <ColorPicker />
-            </HStack>
+            </HStack> */}
           </CardBody>
           <CardFooter flexDir='column'>
             <Link href='/user/UpdateProfile'>

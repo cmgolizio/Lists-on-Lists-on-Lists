@@ -32,14 +32,23 @@ import { db } from '../../src/firebase/firebase';
 const Lists = () => {
   const [showEditTitle, setShowEditTitle] = useState(false);
   const [targetedList, setTargetedList] = useState('');
-  const { currentUser, lists, setLists, userColor, modeColor, notModeColor } = useAuth();
+  const { currentUser, lists, setLists, userColor, modeColor, notModeColor, deleteList } = useAuth();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const router = useRouter();
   let type;
 
   const shadowColor = useColorModeValue(
-    '0px 45px 50px -25px rgba(22,22,29,0.75)',
-    '0px 45px 50px -25px rgba(248,248,255,0.75)'
+    '35px 35px 70px #ceced4, -35px -35px 70px #ffffff',
+    '35px 35px 70px #09090c, -35px -35px 70px #23232e'
+    // '50px 50px 65px #09090c, -50px -50px 65px #23232e'
+  );
+
+  const bgGradient = useColorModeValue(
+    'linear-gradient(to-br, #ffffff, #dfdfe6)',
+    // !! 1 !! //
+    // '#16161D'
+    // !! 2 !! //
+    'linear-gradient(to-br, #14141a, #18181f)'
   );
 
   useEffect(() => {
@@ -48,15 +57,11 @@ const Lists = () => {
     const q = query(listsCollRef, orderBy('created'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      setLists(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id, created: doc.data().created?.toDate().getTime()})))
+      setLists(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})))
     });
 
     return unsubscribe;
   }, []);
-
-  // useEffect(() => {
-  //   console.log(targetedList.title);
-  // }, [targetedList])
 
   const handleMenuTarget = async (e, list, type) => {
     e.preventDefault();
@@ -94,26 +99,30 @@ const Lists = () => {
           (lists.map(list => (
                 <Flex
                   key={list.id}
-                  h='15rem'
-                  w='20rem'
+                  minH={300}
+                  minW={300}
+                  h='max-content'
+                  w='max-content'
                   justify='center'
-                  bg={modeColor}
+                  // bg={modeColor}
+                  bg={bgGradient}
                   color={notModeColor}
                   boxShadow={shadowColor}
                   pos='relative'
-                  borderRadius={5}
+                  borderRadius={19}
                   mx={5}
                   my={10}
                 >
                   <Heading
                     size='xl'
+                    p={5}
                     as='button'
                     onClick={() => router.push({
                     pathname: '/list/ActiveList',
                     query: {
                       title: list.title
                     },
-                  }, '/list/ActiveList')}
+                  }, `/${list.title}`)}
                   >
                     {list.title}
                   </Heading>
@@ -132,6 +141,7 @@ const Lists = () => {
                       />
                       <MenuList>
                         <MenuItem icon={<GrTrash />} command='⌘D' onClick={(e) => handleMenuTarget(e, list, 'delete')}>
+                        {/* <MenuItem icon={<GrTrash />} command='⌘D' onClick={() => deleteList(list)}> */}
                           Delete
                         </MenuItem>
                         <DeleteListConfirm

@@ -64,29 +64,37 @@ const AddListComponent = () => {
           <form onSubmit={e => handleSubmit(e)}>
             <Input
               value={inputData.title}
+              errorBorderColor='crimson'
+              isInvalid={error.length ? true : false}
               onChange={(e) => setInputData({...inputData, title: e.target.value})}
               placeholder='Add a title'
               size='lg'
+              outline='none'
+              border='1px'
+              borderColor={notModeColor}
               variant='filled'
-              bg={notModeColor}
-              color={modeColor}
-              _hover={{bg: 'gray.200', _placeholder: modeColor, color: modeColor}}
-              _focus={{bg: notModeColor, color: modeColor}}
+              bg={modeColor}
+              color={notModeColor}
+              _hover={{bg: notModeColor, _placeholder: modeColor, color: modeColor}}
+              // _focus={{outline: 'none'}}
+              _focus={{ outline: 'none', _hover: {bg: modeColor, color: notModeColor}}}
             />
               <Button
                 type='submit'
                 my={2}
                 minW='max-content'
-                bg={notModeColor}
-                color={modeColor}
-                _hover={{bg: notModeColor, color: modeColor}}
+                bg={modeColor}
+                color={notModeColor}
+                _hover={{ bg: notModeColor, color: modeColor }}
+                border='1px'
+                borderColor={notModeColor}
               >
                 Create List
               </Button>
           </form>
         </InputGroup>
       </VStack>
-  );
+    );
 };
 
 export default AddListComponent;

@@ -67,22 +67,38 @@ const AddTask = () => {
         <Input
           value={description}
           errorBorderColor='crimson'
-          bg={notModeColor}
-          color={modeColor}
-          _hover={{bg: 'gray.300', _placeholder: modeColor, color: modeColor}}
-          _focus={{bg: notModeColor, color: modeColor}}
           isInvalid={error.length ? true : false}
           onChange={(e) => handleInputChange(e)}
           placeholder='Add a Task'
           size='lg'
-          variant='ghost'
+          outline='none'
+          border='1px'
+          borderColor={notModeColor}
+          variant='filled'
+          bg={modeColor}
+          color={notModeColor}
+          _hover={{bg: notModeColor, _placeholder: modeColor, color: modeColor}}
+          // _hover={{bg: modeColor, _placeholder: notModeColor, color: notModeColor}}
+          _focus={{ outline: 'none', _hover: {bg: modeColor, color: notModeColor}}}
+          _active={{ outline: 'none'}}
         />
         <InputRightElement
           variant='outline'
           h='100%'
           w='3.5rem'
         >
-          <Button h='100%' w='100%' borderLeft='1px' borderColor={modeColor} bg={notModeColor} color={modeColor} onClick={(e) => handleSubmit(e)}>Add</Button>
+          <Button
+            h='100%'
+            w='100%'
+            bg={modeColor}
+            color={notModeColor}
+            _hover={{ bg: notModeColor, color: modeColor }}
+            // borderLeft='1px'
+            border='1px'
+            borderColor={notModeColor}
+          >
+            Add
+          </Button>
         </InputRightElement>
       </InputGroup>
     </VStack>

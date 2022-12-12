@@ -10,6 +10,7 @@ import {
 import {
   VStack,
   Heading,
+  Box,
 } from '@chakra-ui/react';
 
 import { db } from '../../firebase/firebase';
@@ -40,6 +41,9 @@ const Tasks = () => {
 
   return (
     <VStack minH='max-content' spacing={5}>
+      <Box mb={10}>
+        <AddTask />
+      </Box>
       {
         tasks &&
           (tasks.map(task => (

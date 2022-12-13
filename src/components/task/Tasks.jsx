@@ -11,12 +11,14 @@ import {
   VStack,
   Heading,
   Box,
+  Divider,
 } from '@chakra-ui/react';
 
 import { db } from '../../firebase/firebase';
 import { useAuth } from '../../hooks/useAuth';
 import AddTask from './AddTask';
 import Task from './Task';
+import TaskFooter from './TaskFooter';
 
 const Tasks = () => {
   const {
@@ -24,6 +26,8 @@ const Tasks = () => {
     activeList,
     tasks,
     setTasks,
+    modeColor,
+    notModeColor,
   } = useAuth();
 
   useEffect(() => {
@@ -40,7 +44,7 @@ const Tasks = () => {
   }, [activeList]);
 
   return (
-    <VStack minH='max-content' spacing={5}>
+    <VStack minH='max-content' spacing={5} bg={notModeColor} borderRadius={19} mb={20}>
       <Box mb={10}>
         <AddTask />
       </Box>
@@ -50,6 +54,7 @@ const Tasks = () => {
             <Task key={task.id} task={task} />
           )))
       }
+      <TaskFooter />
     </VStack>
   );
 };

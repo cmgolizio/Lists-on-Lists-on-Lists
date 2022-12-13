@@ -4,12 +4,16 @@ import {
   Flex,
   Stack,
   HStack,
+  VStack,
   Heading,
   IconButton,
   Icon,
   Text,
+  Alert,
+  AlertIcon,
+  Badge,
 } from '@chakra-ui/react';
-import { TriangleDownIcon, TriangleUpIcon, AddIcon } from '@chakra-ui/icons';
+import { TriangleDownIcon, TriangleUpIcon, AddIcon, WarningIcon } from '@chakra-ui/icons';
 import {
   GrTrash,
   GrCheckbox,
@@ -19,10 +23,13 @@ import {
 import { useAuth } from '../../hooks/useAuth';
 import AddSubTask from './sub-tasks/AddSubTask';
 import SubTasks from './sub-tasks/SubTasks';
+import PrioritySetter from './PrioritySetter';
 
 const Task = ({ key, task }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAddSubTask, setShowSubTask] = useState(false);
+  const [showPriority, setShowPriority] = useState(false);
+  const [error, setError] = useState('');
   const {
     deleteTask,
     checkTask,
@@ -30,6 +37,9 @@ const Task = ({ key, task }) => {
     userColor,
     modeColor,
     notModeColor,
+    completedTasks,
+    setCompletedTasks,
+    updatePriority,
   } = useAuth();
 
   const handleDeleteTask = (e) => {
@@ -38,10 +48,11 @@ const Task = ({ key, task }) => {
     deleteTask(task);
   };
 
-  const handleCheckTask = (e) => {
+  const handleCheckTask = async (e) => {
     e.preventDefault();
 
-    checkTask(task.id, task.isChecked);
+    checkTask(task, task.isChecked);
+    await setCompletedTasks(prev => [...prev, task]);
   };
 
   const handleExpandTask = (e) => {
@@ -58,8 +69,20 @@ const Task = ({ key, task }) => {
     setShowSubTask(prev => !prev);
   };
 
+  const handleShowPriority = async (e) => {
+    e.preventDefault();
+
+    setShowPriority(true);
+  };
+
+  // React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    console.log('COMPLETED TASKS (from Task.jsx): ', completedTasks);
+  }, [completedTasks]);
+
   return (
     <Box key={key} minW='100%' minH='100%' pos='relative' py={isExpanded && 5}>
+      {error && <Alert variant='error'><AlertIcon/>{error}</Alert>}
       <HStack w='35rem' h={isExpanded ? '10rem' : '2rem'} justify='space-between'>
         <IconButton
           variant='ghost'
@@ -72,7 +95,7 @@ const Task = ({ key, task }) => {
           }
           onClick={(e) => handleCheckTask(e)}
         />
-        <HStack align='center' justify='center' bg={notModeColor} w='110%' h='130%' minW='max-content' borderRadius={5} pos='relative'>
+        <HStack align='center' justify='center' bg={notModeColor} w='110%' h='130%' minW='max-content' borderRadius={5} pos='relative' border='1px' borderColor={modeColor}>
 
           <HStack
             w='100%'
@@ -95,10 +118,44 @@ const Task = ({ key, task }) => {
                   onClick={(e) => handleShowAddSubTask(e)}
                 />)
             }
+            {
+              showPriority ?
+                (<PrioritySetter taskID={task.id} setShowPriority={setShowPriority} setError={setError}/>) :
+                (<IconButton
+                  icon={<Icon as={WarningIcon}/>}
+                  onClick={handleShowPriority}
+                  color={modeColor}
+                  variant='ghost'
+                  size='sm'
+                  _hover={{bg: 'transparent'}}
+                  _active={{bg: 'transparent'}}
+                />)
+            }
           </HStack>
 
+          <Stack
+            pos={isExpanded ? 'absolute' : ''} top={1}
+            align='center'
+            justify='center'
+            direction={isExpanded ? 'column' : 'row'}
+          >
+            <Text
+              color={modeColor}
+              fontSize='xl'
+              decoration={task.isChecked ? 'line-through' : 'none'}
+            >
+              {task.description}
+            </Text>
 
-          <Text color={modeColor} paddingTop={1} fontSize='xl' paddingLeft={1.5} decoration={task.isChecked ? 'line-through' : 'none'} pos={isExpanded ? 'absolute' : ''} top={1}>{task.description}</Text>
+            {task.priority ?
+              (<Badge
+                bg={task.priority.bg}
+                color={task.priority.color}
+              >
+                {task.priority.type}
+              </Badge>) :
+              null}
+          </Stack>
           <IconButton
             color={modeColor}
             variant='ghost'

@@ -29,6 +29,7 @@ const AddTask = () => {
         created: new Date(),
         description: description,
         isExpanded: false,
+        priority: 'low',
     };
 
     setDescription("");

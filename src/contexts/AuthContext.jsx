@@ -19,6 +19,7 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  where,
 } from 'firebase/firestore';
 import { useColorModeValue } from "@chakra-ui/react";
 
@@ -31,6 +32,7 @@ export const AuthContextProvider = ({ children }) => {
   const [lists, setLists] = useState([]);
   const [activeList, setActiveList] = useState();
   const [tasks, setTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
   const [subTasks, setSubTasks] = useState([]);
   const [deletedLists, setDeletedLists] = useState(null);
   const [deletedTasks, setDeletedTasks] = useState(null);
@@ -99,6 +101,27 @@ const addTask = async (task) => {
   await setDoc(doc(listRef, "tasks", task.id), task);
 };
 
+const completeTask = async (task, isChecked) => {
+  const listRef = await doc(db, `users/${currentUser.uid}/lists/${activeList.title}`);
+  const completedTaskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/completed-tasks/${task.id}`);
+  const taskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${task.id}`);
+  await updateDoc(taskRef, {
+    isChecked: !isChecked,
+  });
+
+  const setTask = async () => {
+    await setDoc(doc(listRef, "completed-tasks", task.id), task);
+  };
+  const deleteTaskFromCompleted = async () => {
+    await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${activeList.title}/completed-tasks`, `${task.id}`));
+    const filteredCompletedTasks = completedTasks.filter(t => t.id !== task.id);
+
+    await setCompletedTasks(filteredCompletedTasks);
+  };
+
+  !isChecked ? setTask() : deleteTaskFromCompleted();
+};
+
 // ** see 'deleteTask' below for explanation of how 'deleteList' works ** //
 const deleteList = async (list) => {
   let newDeletedLists;
@@ -163,9 +186,6 @@ const undoDeleteList = async () => {
   ));
   console.log('AuthContext - undoDeleteList - UNDELETED LIST: ', undeletedList);
 
-
-
-
   if (!deletedLists.length) {
     await setDeletedLists(null);
   } else {
@@ -189,11 +209,12 @@ const undoDeleteTask = async () => {
   await addTask(undeletedTask);
 };
 
-const checkTask = async (taskID, isChecked) => {
-  const taskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${taskID}`);
+const checkTask = async (task, isChecked) => {
+  const taskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${task.id}`);
   await updateDoc(taskRef, {
     isChecked: !isChecked,
-  })
+  });
+  await completeTask(task, isChecked);
 };
 
 const expandTask = async (taskID, isExpanded) => {
@@ -206,6 +227,34 @@ const expandTask = async (taskID, isExpanded) => {
 const addSubTask = async (taskID, subTask) => {
   const taskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${taskID}`);
   await setDoc(doc(taskRef, "subTasks", subTask.id), subTask);
+};
+
+const updatePriority = async (taskID, priority) => {
+  const priorities = {
+    'LOW': {
+      type: 'low',
+      bg: 'green.200',
+      color: 'green.700',
+    },
+    'MED': {
+      type: 'medium',
+      bg: 'orange.300',
+      color: 'orange.800',
+    },
+    'HIGH': {
+      type: 'high',
+      bg: 'red.300',
+      color: 'red.800',
+    },
+  };
+
+  const taskRef = doc(db, `users/${currentUser.uid}/lists/${activeList.title}/tasks/${taskID}`);
+  // await updateDoc(taskRef, {
+  //   priority: priority,
+  // })
+  await updateDoc(taskRef, {
+    priority: priorities[`${priority}`],
+  })
 };
 
   useEffect(() => {
@@ -230,6 +279,9 @@ const addSubTask = async (taskID, subTask) => {
         updateListTitle,
         tasks,
         setTasks,
+        completedTasks,
+        setCompletedTasks,
+        completeTask,
         subTasks,
         setSubTasks,
         userColor,
@@ -253,6 +305,7 @@ const addSubTask = async (taskID, subTask) => {
         activeList,
         setActiveList,
         updateUserColor,
+        updatePriority,
         modeColor,
         notModeColor,
       }}

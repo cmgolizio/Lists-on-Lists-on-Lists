@@ -12,6 +12,15 @@ const nextConfig = {
     NEXT_APP_FIREBASE_MESSAGING_SENDER_ID: "367946117685",
     NEXT_APP_FIREBASE_APP_ID: "1:367946117685:web:35920e45ff6d024679377c",
   },
+  async redirects() {
+    return [
+      {
+        source: "/mylists",
+        destination: "/list/Lists",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

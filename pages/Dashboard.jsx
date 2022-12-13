@@ -41,11 +41,11 @@ const Dashboard = () => {
   const goToLists = (e) => {
     e.preventDefault();
     console.log('Dashboard - goToLists - ROUTER: ', router);
-    router.push('/list/Lists');
+    router.push('/list/Lists', '/mylists');
   };
 
   useEffect(() => {
-    router.prefetch('/list/Lists');
+    router.prefetch('/list/Lists', '/mylists');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

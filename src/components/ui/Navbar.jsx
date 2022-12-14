@@ -35,15 +35,15 @@ const Navbar = () => {
 
     try {
       await logout();
-      router.push('/auth/Login', '/login')
+      router.push('/auth/Login')
     } catch (error) {
       setError('Failed to log out.')
     }
   };
 
-  const handleToDashboard = (e) => {
+  const handleToDashboard = async (e) => {
     e.preventDefault();
-    setActiveList(null)
+    await setActiveList(null)
 
     router.push('/', '/profile');
   };
@@ -61,28 +61,23 @@ const Navbar = () => {
     if (!currentUser) {
       setShowBtns({
         profile: false,
-        closeList: false
+        lists: false
+      });
+    } else if (router.pathname === '/list/Lists' || router.pathname === '/mylists') {
+      setShowBtns({
+        profile: true,
+        lists: false,
       });
     } else if (router.pathname === '/' || router.pathname === '/profile') {
       setShowBtns({
         profile: false,
-        closeList: true,
-      });
-    } else if (!activeList && router.pathname === '/list/Lists') {
-      setActiveList({
-        profile: true,
-        closeList: false,
-      })
-    }else if (activeList) {
-      setShowBtns({
-        profile: true,
-        closeList: true
+        lists: true,
       });
     } else {
       setShowBtns({
-          profile: true,
-          closeList: false,
-        });
+        profile: true,
+        lists: true
+      });
     }
   };
 
@@ -124,7 +119,7 @@ const Navbar = () => {
           left={3}
         >
           {showNavBtns.profile && <NavbarButton label='Profile' handler={handleToDashboard} />}
-          {showNavBtns.closeList && <NavbarButton label='Lists' handler={handleCloseList} />}
+          {showNavBtns.lists && <NavbarButton label='Lists' handler={handleCloseList} />}
         </HStack>
         {/* <Box
           pos='absolute'

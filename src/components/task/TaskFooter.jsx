@@ -20,7 +20,14 @@ const initialText = {
 
 const TaskFooter = () => {
   const [text, setText] = useState(initialText);
-  const { modeColor, tasks, completedTasks, setCompletedTasks, currentUser, activeList } = useAuth();
+  const {
+    modeColor,
+    tasks,
+    completedTasks,
+    setCompletedTasks,
+    currentUser,
+    activeList,
+  } = useAuth();
 
   useEffect(() => {
     const deletedTasksRef = collection(db, `users/${currentUser.uid}/lists/${activeList?.title}/completed-tasks`);
@@ -38,10 +45,12 @@ const TaskFooter = () => {
   }, []);
 
   useEffect(() => {
+    const remaining = (tasks?.length - completedTasks?.length);
+
     const counts = {
       total: tasks?.length,
       done: completedTasks?.length,
-      remaining: (tasks?.length - completedTasks?.length)
+      remaining: remaining
     };
 
     setText(counts);

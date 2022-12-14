@@ -39,7 +39,7 @@ const Task = ({ key, task }) => {
     notModeColor,
     completedTasks,
     setCompletedTasks,
-    updatePriority,
+    subTasks,
   } = useAuth();
 
   const handleDeleteTask = (e) => {
@@ -76,9 +76,9 @@ const Task = ({ key, task }) => {
   };
 
   // React.useEffect(() => {}, []);
-  React.useEffect(() => {
-    console.log('COMPLETED TASKS (from Task.jsx): ', completedTasks);
-  }, [completedTasks]);
+  // React.useEffect(() => {
+  //   console.log('COMPLETED TASKS (from Task.jsx): ', completedTasks);
+  // }, [completedTasks]);
 
   return (
     <Box key={key} minW='100%' minH='100%' pos='relative' py={isExpanded && 5}>
@@ -105,6 +105,7 @@ const Task = ({ key, task }) => {
             justify='space-evenly'
             visibility={!isExpanded && 'hidden'}
           >
+            {/* <SubTasks task={task} /> */}
             {
               showAddSubTask ?
                 (<AddSubTask taskID={task.id} shouldShowInput={setShowSubTask} />) :

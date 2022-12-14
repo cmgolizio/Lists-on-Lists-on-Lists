@@ -78,10 +78,10 @@ const AddTask = () => {
           variant='filled'
           bg={modeColor}
           color={notModeColor}
-          _hover={{bg: notModeColor, _placeholder: modeColor, color: modeColor}}
+          _hover={{bg: notModeColor, _placeholder: modeColor, color: modeColor, borderColor: modeColor}}
           // _hover={{bg: modeColor, _placeholder: notModeColor, color: notModeColor}}
           _focus={{ outline: 'none', _hover: {bg: modeColor, color: notModeColor}}}
-          _active={{ outline: 'none'}}
+          _active={{ outline: 'none', bg: modeColor}}
         />
         <InputRightElement
           variant='outline'
@@ -93,7 +93,7 @@ const AddTask = () => {
             w='100%'
             bg={modeColor}
             color={notModeColor}
-            _hover={{ bg: notModeColor, color: modeColor }}
+            _hover={{ bg: notModeColor, color: modeColor, borderColor: modeColor }}
             // borderLeft='1px'
             border='1px'
             borderColor={notModeColor}

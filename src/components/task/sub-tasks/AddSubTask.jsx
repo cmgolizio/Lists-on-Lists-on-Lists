@@ -29,9 +29,9 @@ const AddSubTask = ({ taskID, shouldShowInput }) => {
         title: subTitle,
     };
 
-    setSubTitle("");
 
     await addSubTask(taskID, newSubTask);
+    setSubTitle("");
     shouldShowInput(false);
   };
 

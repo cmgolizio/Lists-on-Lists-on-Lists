@@ -27,8 +27,14 @@ import { auth, db } from '../firebase/firebase';
 
 export const AuthContext = createContext();
 
+const initialName = {
+  first: '',
+  last: ''
+};
+
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
+  const [name, setName] = useState(initialName);
   const [lists, setLists] = useState([]);
   const [activeList, setActiveList] = useState();
   const [tasks, setTasks] = useState([]);
@@ -40,12 +46,13 @@ export const AuthContextProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
 
     // ** Auth functions ** //
-  const signup = (email, password) => {
+  const signup = (data) => {
+    const { email, password } = data;
     return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         const userID = user.uid;
-        writeUserData(userID, email);
+        writeUserData(userID, data);
         console.log(user);
       })
       .catch((err) => {
@@ -73,11 +80,22 @@ export const AuthContextProvider = ({ children }) => {
     return updatePassword(currentUser, password);
   };
 
-  const writeUserData = async (userID, email) => {
+  const writeUserData = async (userID, data) => {
+    const { email, firstName, lastName } = data;
     await setDoc(doc(db, "users", userID), {
       email: email,
       id: userID,
-      userColor: userColor,
+      name: [lastName, firstName],
+      // userColor: userColor,
+    });
+  };
+
+  const changeName = async (newNames) => {
+    const { first, last } = newNames;
+    const userRef = doc(db, `users/${currentUser.uid}`);
+
+    await updateDoc(userRef, {
+      name: [last, first]
     });
   };
 
@@ -266,6 +284,10 @@ const updatePriority = async (taskID, priority) => {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    console.log('SUBTASKS: ', subTasks);
+  }, [subTasks]);
+
   const modeColor = useColorModeValue('light', 'dark');
   const notModeColor = useColorModeValue('dark', 'light');
 
@@ -273,6 +295,9 @@ const updatePriority = async (taskID, priority) => {
     <AuthContext.Provider
       value={{
         currentUser,
+        name,
+        setName,
+        changeName,
         lists,
         setLists,
         deleteList,

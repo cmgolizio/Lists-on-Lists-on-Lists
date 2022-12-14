@@ -23,11 +23,20 @@ const UpdateProfile = () => {
   const [error, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
 
+  const firstRef = useRef();
+  const lastRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
 
-  const { currentUser, changeEmail, changePasswor } = useAuth();
+  const {
+    currentUser,
+    changeEmail,
+    changePassword,
+    name,
+    setName,
+    changeName,
+  } = useAuth();
 
   const router = useRouter();
 
@@ -45,6 +54,9 @@ const UpdateProfile = () => {
       if (passwordRef.current.value === passwordConfirmRef.current.value) {
         promises.push(changePassword(passwordRef.current.value));
       }
+    }
+    if (firstRef.current.value && lastRef.current.value) {
+      promises.push(changeName({first: firstRef.current.value, last: lastRef.current.value}));
     }
 
     Promise.all(promises).then(() => {
@@ -66,6 +78,16 @@ const UpdateProfile = () => {
           </CardHeader>
           <CardBody mx='2rem'>
             <form onSubmit={(e) => handleSubmit(e)}>
+              <FormControl my='1rem'>
+                <FormLabel>First name</FormLabel>
+                <Input ref={firstRef} />
+                {/* <FormHelperText>Leave blank to keep current email</FormHelperText> */}
+              </FormControl>
+              <FormControl my='1rem'>
+                <FormLabel>Last name</FormLabel>
+                <Input ref={lastRef} />
+                {/* <FormHelperText>Leave blank to keep current email</FormHelperText> */}
+              </FormControl>
               <FormControl my='1rem'>
                 <FormLabel>Email address</FormLabel>
                 <Input type='email' placeholder={currentUser.email} ref={emailRef} />

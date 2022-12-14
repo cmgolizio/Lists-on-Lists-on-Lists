@@ -23,8 +23,8 @@ const Signup = () => {
   const [isError, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
 
-  // const firstNameRef = useRef();
-  // const lastNameRef = useRef();
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
   // const avatarRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -40,13 +40,21 @@ const Signup = () => {
       setError('Passwords do not match.');
     }
 
+    const data = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      firstName: firstNameRef.current.value,
+      lastName: lastNameRef.current.value,
+    };
+
     try {
       setError('');
       setLoading(true);
-      await signup(
-        emailRef.current.value,
-        passwordRef.current.value,
-      );
+      // await signup(
+      //   emailRef.current.value,
+      //   passwordRef.current.value,
+      // );
+      await signup(data);
       router.push('/', '/profile')
     } catch (error) {
       setError('Failed to create account.');
@@ -65,14 +73,14 @@ const Signup = () => {
           </CardHeader>
           <CardBody mx='2rem'>
             <form onSubmit={(e) => handleSubmit(e)}>
-              {/* <FormControl>
+              <FormControl isRequired>
                 <FormLabel>First name</FormLabel>
                 <Input type='text' my='1rem' ref={firstNameRef} />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel>Last Name</FormLabel>
                 <Input type='text' my='1rem' ref={lastNameRef} />
-              </FormControl> */}
+              </FormControl>
               <FormControl isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input type='email' my='1rem' ref={emailRef} />
@@ -99,7 +107,7 @@ const Signup = () => {
         </Card>
         <Text w='100%' fontSize='md'>
           Already have an account?{' '}
-          <Link href='/auth/Login'>
+          <Link href='/auth/Login' as='/login'>
             Log in
           </Link>
         </Text>

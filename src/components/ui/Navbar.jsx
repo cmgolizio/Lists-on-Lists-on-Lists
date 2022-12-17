@@ -109,7 +109,7 @@ const Navbar = () => {
       top='0vh'
       h='3.5rem'
       w='100%'
-      bg={notModeColor}
+      bg={modeColor}
       align='center'
       justify='center'
     >

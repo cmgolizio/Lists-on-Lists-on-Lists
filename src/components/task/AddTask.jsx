@@ -79,9 +79,9 @@ const AddTask = () => {
           bg={modeColor}
           color={notModeColor}
           _hover={{bg: notModeColor, _placeholder: modeColor, color: modeColor, borderColor: modeColor}}
-          // _hover={{bg: modeColor, _placeholder: notModeColor, color: notModeColor}}
-          _focus={{ outline: 'none', _hover: {bg: modeColor, color: notModeColor}}}
-          _active={{ outline: 'none', bg: modeColor}}
+          _focus={{color: modeColor, _placeholder: notModeColor}}
+          // _focus={{ outline: 'none', _hover: {bg: modeColor, color: notModeColor}}}
+          // _active={{ outline: 'none', bg: modeColor}}
         />
         <InputRightElement
           variant='outline'

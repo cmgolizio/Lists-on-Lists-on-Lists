@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   VStack,
   Heading,
@@ -14,27 +14,37 @@ import AddTask from '../../src/components/task/AddTask';
 import Tasks from '../../src/components/task/Tasks';
 
 const ActiveList = () => {
-  const { currentUser, activeList, setActiveList, tasks } = useAuth();
+  const [isExample, setIsExample] = useState(false);
+  const {
+    currentUser,
+    activeList,
+    setActiveList,
+    tasks,
+  } = useAuth();
   const router = useRouter();
 
   const getActiveList = async () => {
-    const docRef = doc(db, `users/${currentUser.uid}/lists/${router.query.title}`);
-    const docSnap = await getDoc(docRef);
+    const activeListRef = doc(db, `users/${currentUser.uid}/lists/${router.query.title}`);
+    const activeListSnap = await getDoc(activeListRef);
 
-    if (docSnap.exists()) {
-      setActiveList(docSnap.data());
+    if (activeListSnap.exists()) {
+      await setActiveList(activeListSnap.data());
     } else {
       await router.push('/list/Lists', '/mylists');
     }
   };
 
   useEffect(() => {
-    router.prefetch('/list/Lists');
+    router.prefetch('/list/Lists', '/mylists');
   }, []);
 
   useEffect(() => {
     getActiveList();
   }, []);
+
+  // useEffect(() => {
+  //   console.log('IS EXAMPLE LIST: ', isExample);
+  // }, []);
 
   return (
     <VStack

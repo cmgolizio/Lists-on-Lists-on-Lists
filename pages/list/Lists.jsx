@@ -1,18 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import {
-  Flex,
-  Box,
-  Heading,
-  Center,
-  IconButton,
-  useDisclosure,
-  Menu,
-  MenuList,
-  MenuButton,
-  MenuItem,
   VStack,
-  useColorModeValue,
+  Flex,
+  Container,
+  Grid,
+  GridItem,
+  Center,
+  Box,
 } from '@chakra-ui/react';
 import {
   collection,
@@ -20,36 +15,17 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
-import { useRouter } from 'next/router';
-import { GrTrash, GrMoreVertical, GrEdit } from 'react-icons/gr';
 
+import CustomPopover from '../../src/components/ui/CustomPopover';
+import AddListButton from '../../src/components/list/AddListButton';
 import AddList from '../../src/components/list/AddList';
-import EditListTitle from '../../src/components/list/EditListTitle';
-import DeleteListConfirm from '../../src/components/list/DeleteListConfirm';
+import List from '../../src/components/list/List';
 import { useAuth } from '../../src/hooks/useAuth';
 import { db } from '../../src/firebase/firebase';
 
 const Lists = () => {
-  const [showEditTitle, setShowEditTitle] = useState(false);
   const [targetedList, setTargetedList] = useState('');
-  const { currentUser, lists, setLists, userColor, modeColor, notModeColor, deleteList } = useAuth();
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const router = useRouter();
-  let type;
-
-  const shadowColor = useColorModeValue(
-    '35px 35px 70px #ceced4, -35px -35px 70px #ffffff',
-    '35px 35px 70px #09090c, -35px -35px 70px #23232e'
-    // '50px 50px 65px #09090c, -50px -50px 65px #23232e'
-  );
-
-  const bgGradient = useColorModeValue(
-    'linear-gradient(to-br, #ffffff, #dfdfe6)',
-    // !! 1 !! //
-    // '#16161D'
-    // !! 2 !! //
-    'linear-gradient(to-br, #14141a, #18181f)'
-  );
+  const { currentUser, lists, setLists } = useAuth();
 
   useEffect(() => {
     setLists(null);
@@ -63,120 +39,56 @@ const Lists = () => {
     return unsubscribe;
   }, []);
 
-  const handleMenuTarget = async (e, list, type) => {
-    e.preventDefault();
-    switch(type) {
-      case 'delete': {
-        await setTargetedList(list);
-        return onOpen()
-      }
-      case 'edit': {
-        await setTargetedList(list);
-        return setShowEditTitle(true)
-      }
-    }
-  };
   return (
-    <VStack
-      minH='100vh'
-      minW='100vw'
-      paddingTop={20}
-    >
-      <Center>
-        <AddList />
+    // <VStack
+    //   h='100vh'
+    //   minW='100vw'
+    //   // maxW='100vw'
+    //   maxH='calc(100vh - 10px)'
+    //   pt={10}
+    //   >
+    <Box h='100vh' pt={10}>
+      <Center pos='absolute' top={2} left='50%'>
+        <CustomPopover />
       </Center>
       <Flex
         dir='row'
-        wrap='wrap'
-        h='100%'
-        w='100%'
-        align='center'
-        justify='space-evenly'
+        wrap='nowrap'
+        overflowX='auto'
+        overflowY='hidden'
+        h='calc(100vh - 15rem)'
+        m='4px 4px'
+        p='4px'
+        whiteSpace='nowrap'
       >
+      {/* <Grid
+        h='max-content'
+        maxW='100%'
+        maxH='100%'
+        templateColumns='repeat(3, 9fr)'
+        templateRows='repeat(1, 9fr)'
+        autoFlow='row'
+        wra
+        mx={20}
+      > */}
         {
           !lists ?
           null :
-          (lists.map(list => (
-                <Flex
+          (lists.map(list => {
+            return (
+              <Container key={list.id} centerContent flex='0 0 auto' w='calc(33% - 20px)' mx={55}>
+                <List
                   key={list.id}
-                  minH={300}
-                  minW={300}
-                  h='max-content'
-                  w='max-content'
-                  justify='center'
-                  // bg={modeColor}
-                  bg={bgGradient}
-                  color={notModeColor}
-                  boxShadow={shadowColor}
-                  pos='relative'
-                  borderRadius={19}
-                  mx={5}
-                  my={10}
-                >
-                  <Heading
-                    size='xl'
-                    p={5}
-                    as='button'
-                    onClick={() => router.push({
-                    pathname: '/list/ActiveList',
-                    query: {
-                      title: list.title
-                    },
-                  }, `/${list.title}`)}
-                  >
-                    {list.title}
-                  </Heading>
-                  <Box
-                    h='100%'
-                    pos='absolute'
-                    top={3}
-                    right={3}
-                  >
-                    <Menu>
-                      <MenuButton
-                        as={IconButton}
-                        icon={<GrMoreVertical />}
-                        variant='ghost'
-                        isRound
-                      />
-                      <MenuList>
-                        <MenuItem icon={<GrTrash />} command='⌘D' onClick={(e) => handleMenuTarget(e, list, 'delete')}>
-                        {/* <MenuItem icon={<GrTrash />} command='⌘D' onClick={() => deleteList(list)}> */}
-                          Delete
-                        </MenuItem>
-                        <DeleteListConfirm
-                          onClose={onClose}
-                          isOpen={isOpen}
-                          targetedList={targetedList}
-                        />
-                        <MenuItem icon={<GrEdit />} command='⌘E' onClick={(e) => handleMenuTarget(e, list, 'edit')}>
-                          Edit Title
-                        </MenuItem>
-                        <Box
-                          w='85%'
-                          pos='absolute'
-                          top='50%'
-                          left='50%'
-                          transform='translate(-50%, -50%)'
-                        >
-                          <EditListTitle
-                            target={targetedList}
-                            showEditTitle={showEditTitle}
-                            setShowEditTitle={setShowEditTitle}
-                          />
-                        </Box>
-                      </MenuList>
-                    </Menu>
-                  </Box>
-              </Flex>
-              )))}
+                  list={list}
+                  targetedList={targetedList}
+                  setTargetedList={setTargetedList}
+                />
+              </Container>
+            );
+          }))}
       </Flex>
-    </VStack>
+    </Box>
   );
 };
 
 export default Lists;
-
-// export async function getServerSideProps(context) {
-
-// };

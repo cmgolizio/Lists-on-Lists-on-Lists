@@ -14,6 +14,9 @@ export const theme = extendTheme({
   styles: {
     global: (props) => ({
       "html, body": {
+        maxH: "100%",
+        overflowX: "hidden",
+        overflowY: "hidden",
         p: 0,
         m: 0,
         textAlign: "center",

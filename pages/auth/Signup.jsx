@@ -55,7 +55,7 @@ const Signup = () => {
       //   passwordRef.current.value,
       // );
       await signup(data);
-      router.push('/', '/profile')
+      router.push('/list/Lists', '/mylists')
     } catch (error) {
       setError('Failed to create account.');
       console.log('SIGNUP ERROR: ', error)

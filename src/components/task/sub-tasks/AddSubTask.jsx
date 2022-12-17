@@ -55,6 +55,7 @@ const AddSubTask = ({ taskID, shouldShowInput }) => {
     e.preventDefault();
 
     await handleAddSubTask(e, taskID);
+    setSubTitle("");
   };
 
   const handleSubmit = (e) => (subTitle.length ? handleSuccess(e) : handleError(e));

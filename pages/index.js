@@ -10,6 +10,8 @@ export default function Home() {
       fontSize='xl'
       minH='100vh'
       minW='100vw'
+      maxW='100vw'
+      // w='100%'
       align='center'
       justify='center'
     >

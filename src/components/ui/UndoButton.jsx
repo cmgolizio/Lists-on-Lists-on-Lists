@@ -21,6 +21,7 @@ const UndoButton = () => {
       _hover={{ bg: notModeColor, color: modeColor, border: '1px', borderColor: modeColor }}
       disabled={activeList ? deletedTasks === null : deletedLists === null}
       onClick={activeList ? undoDeleteTask : undoDeleteList}
+      borderRadius='full'
       icon={<Icon as={RepeatClockIcon} />}
     />
   );

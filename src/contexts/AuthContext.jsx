@@ -8,6 +8,9 @@ import {
   sendPasswordResetEmail,
   updateEmail,
   updatePassword,
+  deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from 'firebase/auth';
 import {
   collection,
@@ -20,6 +23,7 @@ import {
   doc,
   deleteDoc,
   where,
+  writeBatch
 } from 'firebase/firestore';
 import { useColorModeValue } from "@chakra-ui/react";
 
@@ -68,6 +72,15 @@ export const AuthContextProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  const reauthenticate = async (password) => {
+    const user = auth.currentUser;
+    const { email } = user;
+    const credential = EmailAuthProvider.credential(email, password);
+    reauthenticateWithCredential(user, credential).then(() => {
+      console.log('User was reauthenticated; USER: ', user);
+    }).catch((err) => console.log('USER COULD NOT BE REAUTHENTICATED; Error: ', err));
+  };
+
   const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
@@ -80,14 +93,57 @@ export const AuthContextProvider = ({ children }) => {
     return updatePassword(currentUser, password);
   };
 
+  const addInitialExampleList = async (userID) => {
+    const batch = writeBatch(db);
+
+    const exampleList = {
+      listID: 'example-list',
+      title: 'Example',
+      description: '',
+      created: new Date(),
+      isActive: false,
+    };
+
+    let exampleTask = {
+        id: 'example-task',
+        isChecked: false,
+        created: new Date(),
+        description: "Here's an example of a task within a list.",
+        isExpanded: false,
+        priority: 'high',
+    };
+
+    const userRef = doc(db, `users/${userID}`);
+    // await setDoc(doc(userRef, "lists", exampleList.title), exampleList);
+    batch.set(doc(userRef, "lists", exampleList.title), exampleList);
+
+    const exampleListRef = doc(db, `users/${userID}/lists/Example`);
+    // await setDoc(doc(exampleListRef, "tasks", exampleTask.id), exampleTask);
+    batch.set(doc(exampleListRef, "tasks", exampleTask.id), exampleTask);
+
+    await batch.commit();
+  };
+
   const writeUserData = async (userID, data) => {
     const { email, firstName, lastName } = data;
+
     await setDoc(doc(db, "users", userID), {
       email: email,
       id: userID,
       name: [lastName, firstName],
-      // userColor: userColor,
     });
+
+    await addInitialExampleList(userID);
+  };
+
+  const deleteAccount = async (routerObj) => {
+    try {
+      await deleteUser(currentUser);
+    } catch (error) {
+      console.log('could not delete account; must revalidate first. Error: ', error);
+    }
+
+    routerObj.push('/auth/Login')
   };
 
   const changeName = async (newNames) => {
@@ -112,6 +168,26 @@ const updateUserColor = async (color) => {
 const addList = async (list) => {
   const userRef = doc(db, `users/${currentUser.uid}`);
   await setDoc(doc(userRef, "lists", list.title), list);
+};
+
+const activateNewList = async (list) => {
+  const newActiveListRef = doc(db, `users/${currentUser.uid}/lists/${list.title}`);
+  const listsRef = collection(db, `users/${currentUser.uid}/lists`);
+
+  const q = query(listsRef, where('isActive', '==', true));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(async (document) => {
+    console.log(document.id, " => ", document.data());
+    const listTitle = document.data().title;
+    const prevActiveListRef = doc(db, `users/${currentUser.uid}/lists/${listTitle}`);
+    await updateDoc(prevActiveListRef, {
+      isActive: false
+    })
+  });
+
+  await updateDoc(newActiveListRef, {
+    isActive: true,
+  });
 };
 
 const addTask = async (task) => {
@@ -295,9 +371,11 @@ const updatePriority = async (taskID, priority) => {
     <AuthContext.Provider
       value={{
         currentUser,
+        deleteAccount,
         name,
         setName,
         changeName,
+        activateNewList,
         lists,
         setLists,
         deleteList,
@@ -320,6 +398,7 @@ const updatePriority = async (taskID, priority) => {
         checkTask,
         login,
         logout,
+        reauthenticate,
         signup,
         resetPassword,
         changeEmail,

@@ -137,13 +137,30 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const deleteAccount = async (routerObj) => {
+    // ** get all the list titles ** //
+    const listQ = query(collection(db, `users/${currentUser.uid}/lists`));
+    const listSnapshot = await getDocs(listQ);
+    listSnapshot.forEach(async (list) => {
+      // ** get all the task id's for Each list ** //
+      const taskQ = query(collection(db, `users/${currentUser.uid}/lists/${list.data().title}/tasks`));
+      const taskSnapshot = await getDocs(taskQ);
+      taskSnapshot.forEach(async (task) => {
+        // ** delete Each task using the task ID ** //
+        await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${list.data().title}/tasks`, `${task.data().id}`));
+      });
+      // ** delete Each list using the list title ** //
+      await deleteDoc(doc(db, `users/${currentUser.uid}/lists`, `${list.data().title}`));
+    });
+
     try {
       await deleteUser(currentUser);
+      // ** finally delete the user doc from the database ** //
+      await deleteDoc(doc(db, 'users', `${currentUser.uid}`));
     } catch (error) {
       console.log('could not delete account; must revalidate first. Error: ', error);
     }
 
-    routerObj.push('/auth/Login')
+    routerObj.push('/auth/Login');
   };
 
   const changeName = async (newNames) => {

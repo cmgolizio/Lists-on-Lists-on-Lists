@@ -46,11 +46,11 @@ const Lists = () => {
         <CustomPopover />
       </Center>
       <Flex
-        dir='row'
-        wrap='nowrap'
-        overflowX='auto'
-        overflowY='hidden'
-        h='calc(100vh - 15rem)'
+        dir={['column', null, null, 'row']}
+        wrap={['wrap', null, null, 'nowrap']}
+        overflowX={['hidden', 'auto', 'auto', 'auto']}
+        overflowY={['auto', 'auto', 'auto', 'hidden']}
+        h={['80%', null, null, 'calc(100vh - 15rem)']}
         m='4px 4px'
         p='4px'
         whiteSpace='nowrap'
@@ -64,11 +64,10 @@ const Lists = () => {
                 key={list.id}
                 centerContent
                 flex='0 0 auto'
-                w='calc(33% - 20px)'
-                mx={55}
+                w={['80%', null, null, 'calc(33% - 20px)']}
+                h={['100%', null, null, null]}
               >
                 <List
-                  key={list.id}
                   list={list}
                   targetedList={targetedList}
                   setTargetedList={setTargetedList}

@@ -18,7 +18,6 @@ import { GrTrash, GrMoreVertical, GrEdit } from 'react-icons/gr';
 import EditListTitle from './EditListTitle';
 import DeleteListConfirm from './DeleteListConfirm';
 import { useAuth } from '../../hooks/useAuth';
-import ListTasks from '../task/ListTasks';
 
 const List = ({ list, targetedList, setTargetedList }) => {
   const [showEditTitle, setShowEditTitle] = useState(false);
@@ -94,7 +93,6 @@ const List = ({ list, targetedList, setTargetedList }) => {
       >
         {list.title}
       </Heading>
-      <ListTasks />
       <Box
         h='100%'
         pos='absolute'

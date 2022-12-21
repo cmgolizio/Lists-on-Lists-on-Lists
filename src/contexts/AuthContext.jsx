@@ -377,10 +377,6 @@ const updatePriority = async (taskID, priority) => {
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    console.log('SUBTASKS: ', subTasks);
-  }, [subTasks]);
-
   const modeColor = useColorModeValue('light', 'dark');
   const notModeColor = useColorModeValue('dark', 'light');
 

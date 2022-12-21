@@ -48,7 +48,7 @@ const ActiveList = () => {
 
   return (
     <VStack
-      w='100%'
+      w='100vw'
       minH='100vh'
       paddingTop={20}
     >

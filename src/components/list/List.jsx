@@ -18,10 +18,11 @@ import { GrTrash, GrMoreVertical, GrEdit } from 'react-icons/gr';
 import EditListTitle from './EditListTitle';
 import DeleteListConfirm from './DeleteListConfirm';
 import { useAuth } from '../../hooks/useAuth';
+import ListTasks from '../task/ListTasks';
 
 const List = ({ list, targetedList, setTargetedList }) => {
   const [showEditTitle, setShowEditTitle] = useState(false);
-  const { notModeColor, activateNewList } = useAuth();
+  const { notModeColor, activateNewList, tasks } = useAuth();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const router = useRouter();
   let type;
@@ -78,17 +79,22 @@ const List = ({ list, targetedList, setTargetedList }) => {
       pos='relative'
       borderRadius={19}
       // mx={5}
-      my={10}
+      my='5rem'
       px={10}
     >
       <Heading
         size='xl'
+        pos='absolute'
+        top={3}
+        left='50%'
+        transform='translate(-50%, 0)'
         p={5}
         as='button'
         onClick={handleActivateList}
       >
         {list.title}
       </Heading>
+      <ListTasks />
       <Box
         h='100%'
         pos='absolute'

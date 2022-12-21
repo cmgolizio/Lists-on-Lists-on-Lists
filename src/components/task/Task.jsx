@@ -108,7 +108,14 @@ const Task = ({ key, task }) => {
                   }
                   onClick={(e) => handleCheckTask(e)}
                 />
-                <Box as='span' flex='1' textAlign='left' bg={() => priorityBg(isExpanded)} color={modeColor}>
+                <Box
+                  as='span'
+                  flex='1'
+                  textAlign='left'
+                  ml={4}
+                  bg={() => priorityBg(isExpanded)}
+                  color={modeColor}
+                >
                   {task.description}
                 </Box>
                 { !isExpanded ? null : task.priority ?
@@ -123,6 +130,7 @@ const Task = ({ key, task }) => {
                   variant='ghost'
                   bg='light'
                   icon={<GrTrash />}
+                  ml={5}
                   onClick={(e) => handleDeleteTask(e)}
                   _hover={{bg: '#ffaaa2'}}
                 />

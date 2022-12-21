@@ -10,10 +10,6 @@ import UndoButton from "./UndoButton";
 const Navbar = () => {
   const [navText, setNavText] = useState('');
   const [error, setError] = useState('');
-  const [showNavBtns, setShowBtns] = useState({
-    profile: false,
-    closeList: false,
-  });
   const {
     logout,
     currentUser,
@@ -57,30 +53,6 @@ const Navbar = () => {
     router.push('/list/Lists', '/mylists');
   };
 
-  const handleSetShowBtns = () => {
-    if (!currentUser) {
-      setShowBtns({
-        profile: false,
-        lists: false
-      });
-    } else if (router.pathname === '/list/Lists' || router.pathname === '/mylists') {
-      setShowBtns({
-        profile: true,
-        lists: false,
-      });
-    } else if (router.pathname === '/' || router.pathname === '/profile') {
-      setShowBtns({
-        profile: false,
-        lists: true,
-      });
-    } else {
-      setShowBtns({
-        profile: true,
-        lists: true
-      });
-    }
-  };
-
   // const handleNavText = async () => {
   //   if (!currentUser) {
   //     setNavText('');
@@ -95,13 +67,6 @@ const Navbar = () => {
   //     await setNavText(`Your list "${activeList.title}" has ${tasks.length} uncompleted tasks`);
   //   }
   // };
-
-  useEffect(() => {
-    handleSetShowBtns();
-    // handleNavText();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeList, currentUser]);
 
   return (
     <Flex
@@ -118,8 +83,8 @@ const Navbar = () => {
           pos='absolute'
           left={3}
         >
-          {showNavBtns.profile && <NavbarButton label='Profile' handler={handleToDashboard} />}
-          {showNavBtns.lists && <NavbarButton label='Lists' handler={handleCloseList} />}
+          <NavbarButton label='Profile' handler={handleToDashboard} />
+          <NavbarButton label='Lists' handler={handleCloseList} />
         </HStack>
         {/* <Box
           pos='absolute'

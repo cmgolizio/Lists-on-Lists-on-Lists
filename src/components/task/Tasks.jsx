@@ -44,7 +44,14 @@ const Tasks = () => {
   }, [activeList]);
 
   return (
-    <VStack minH='max-content' spacing={5} bg={notModeColor} borderRadius={19} mb={20}>
+    <VStack
+      minH='max-content'
+      minW='60vw'
+      spacing={5}
+      bg={notModeColor}
+      borderRadius={19}
+      mb={20}
+    >
       <Box mb={10}>
         <AddTask />
       </Box>

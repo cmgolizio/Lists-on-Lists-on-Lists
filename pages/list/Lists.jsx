@@ -22,6 +22,7 @@ import AddList from '../../src/components/list/AddList';
 import List from '../../src/components/list/List';
 import { useAuth } from '../../src/hooks/useAuth';
 import { db } from '../../src/firebase/firebase';
+import PageTransition from '../../styles/framer-motion/PageTransition';
 
 const Lists = () => {
   const [targetedList, setTargetedList] = useState('');
@@ -40,13 +41,6 @@ const Lists = () => {
   }, []);
 
   return (
-    // <VStack
-    //   h='100vh'
-    //   minW='100vw'
-    //   // maxW='100vw'
-    //   maxH='calc(100vh - 10px)'
-    //   pt={10}
-    //   >
     <Box h='100vh' pt={10}>
       <Center pos='absolute' top={2} left='50%'>
         <CustomPopover />
@@ -61,22 +55,18 @@ const Lists = () => {
         p='4px'
         whiteSpace='nowrap'
       >
-      {/* <Grid
-        h='max-content'
-        maxW='100%'
-        maxH='100%'
-        templateColumns='repeat(3, 9fr)'
-        templateRows='repeat(1, 9fr)'
-        autoFlow='row'
-        wra
-        mx={20}
-      > */}
         {
           !lists ?
           null :
           (lists.map(list => {
             return (
-              <Container key={list.id} centerContent flex='0 0 auto' w='calc(33% - 20px)' mx={55}>
+              <Container
+                key={list.id}
+                centerContent
+                flex='0 0 auto'
+                w='calc(33% - 20px)'
+                mx={55}
+              >
                 <List
                   key={list.id}
                   list={list}

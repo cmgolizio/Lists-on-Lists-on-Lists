@@ -22,13 +22,12 @@ const CustomPopover = () => {
   const fieldRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <>
       <Popover
         isOpen={isOpen}
         initialFocusRef={fieldRef}
         onOpen={onOpen}
         onClose={onClose}
-        placement='auto'
+        placement='bottom'
         closeOnBlur={true}
         isLazy
       >
@@ -44,7 +43,6 @@ const CustomPopover = () => {
           </FocusLock>
         </PopoverContent>
       </Popover>
-    </>
   );
 };
 

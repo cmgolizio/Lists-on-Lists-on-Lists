@@ -33,6 +33,12 @@ export const theme = extendTheme({
   },
   components: {
     Popover: {
+      sizes: {
+        xl: {
+          h: "5rem",
+          w: "7rem",
+        },
+      },
       variants: {
         picker: {
           popper: {

@@ -223,6 +223,7 @@ const completeTask = async (task, isChecked) => {
   const setTask = async () => {
     await setDoc(doc(listRef, "completed-tasks", task.id), task);
   };
+
   const deleteTaskFromCompleted = async () => {
     await deleteDoc(doc(db, `users/${currentUser.uid}/lists/${activeList.title}/completed-tasks`, `${task.id}`));
     const filteredCompletedTasks = completedTasks.filter(t => t.id !== task.id);

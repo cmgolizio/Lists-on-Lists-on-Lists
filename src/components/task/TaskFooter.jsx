@@ -48,9 +48,9 @@ const TaskFooter = () => {
     const remaining = (tasks?.length - completedTasks?.length);
 
     const counts = {
-      total: tasks?.length,
-      done: completedTasks?.length,
-      remaining: remaining
+      total: tasks?.length >= 0 ? tasks.length : 0,
+      done: completedTasks?.length >= 0 ? completedTasks.length : 0,
+      remaining: remaining >= 0 ? remaining : 0,
     };
 
     setText(counts);

@@ -97,6 +97,7 @@ const AddTask = () => {
             // borderLeft='1px'
             border='1px'
             borderColor={notModeColor}
+            onClick={(e) => handleSubmit(e)}
           >
             Add
           </Button>

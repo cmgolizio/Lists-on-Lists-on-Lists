@@ -41,16 +41,17 @@ const Lists = () => {
   }, []);
 
   return (
-    <Box h='100vh' pt={10}>
+    <Box h='100vh' pt={[null, null, null, 10]}>
       <Center pos='absolute' top={2} left='50%'>
         <CustomPopover />
       </Center>
       <Flex
+        scrollSnapType={['y mandatory', null, null, null]}
         dir={['column', null, null, 'row']}
         wrap={['wrap', null, null, 'nowrap']}
         overflowX={['hidden', 'auto', 'auto', 'auto']}
         overflowY={['auto', 'auto', 'auto', 'hidden']}
-        h={['80%', null, null, 'calc(100vh - 15rem)']}
+        h={['100%', null, null, 'calc(100vh - 15rem)']}
         m='4px 4px'
         p='4px'
         whiteSpace='nowrap'
@@ -64,8 +65,9 @@ const Lists = () => {
                 key={list.id}
                 centerContent
                 flex='0 0 auto'
-                w={['80%', null, null, 'calc(33% - 20px)']}
-                h={['100%', null, null, null]}
+                w={['85%', null, null, 'calc(33% - 20px)']}
+                h={['90%', null, null, null]}
+                scrollSnapAlign={['start', null, null, null]}
               >
                 <List
                   list={list}

@@ -59,7 +59,7 @@ const Lists = () => {
         {
           !lists ?
           null :
-          (lists.map(list => {
+          (lists.map((list, i) => {
             return (
               <Container
                 key={list.id}
@@ -68,6 +68,7 @@ const Lists = () => {
                 w={['85%', null, null, 'calc(33% - 20px)']}
                 h={['90%', null, null, null]}
                 scrollSnapAlign={['start', null, null, null]}
+                mb={i === lists.length - 1 ? '10rem' : null}
               >
                 <List
                   list={list}

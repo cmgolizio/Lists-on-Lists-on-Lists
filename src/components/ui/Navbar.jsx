@@ -74,7 +74,8 @@ const Navbar = () => {
       top='0vh'
       h='3.5rem'
       w='100%'
-      bg={modeColor}
+      // bg={modeColor}
+      bg='transparent'
       align='center'
       justify='center'
     >

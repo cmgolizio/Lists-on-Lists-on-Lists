@@ -9,7 +9,7 @@ import {
 import { useAuth } from '../../hooks/useAuth';
 
 const Footer = () => {
-  const { modeColor, notModeColor } = useAuth();
+  const { notModeColor } = useAuth();
   return (
     <HStack
       pos='absolute'
@@ -17,7 +17,7 @@ const Footer = () => {
       left='0vw'
       w='100vw'
       justify='center'
-      bg={modeColor}
+      bg='transparent'
       color={notModeColor}
     >
       <Text

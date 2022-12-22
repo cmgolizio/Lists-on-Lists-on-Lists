@@ -78,7 +78,7 @@ const List = ({ list, targetedList, setTargetedList }) => {
       pos='relative'
       borderRadius={19}
       // mx={5}
-      my='5rem'
+      mt={['2rem', null, null, '5rem']}
       px={10}
     >
       <Heading

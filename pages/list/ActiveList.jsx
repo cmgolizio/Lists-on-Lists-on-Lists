@@ -50,7 +50,7 @@ const ActiveList = () => {
     <VStack
       w='100vw'
       minH='100vh'
-      paddingTop={20}
+      paddingTop={[5, null, null, 20]}
     >
       <Box mb={15}>
         <Heading  size='3xl'>

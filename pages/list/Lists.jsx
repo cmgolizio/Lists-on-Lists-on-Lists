@@ -64,7 +64,7 @@ const Lists = () => {
               <Container
                 key={list.id}
                 centerContent
-                flex='0 0 auto'
+                flex={[null, null, null, '0 0 auto']}
                 w={['85%', null, null, 'calc(33% - 20px)']}
                 h={['90%', null, null, null]}
                 scrollSnapAlign={['start', null, null, null]}

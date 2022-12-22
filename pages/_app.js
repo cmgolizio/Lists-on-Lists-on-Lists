@@ -5,6 +5,7 @@ import { AuthContextProvider } from "../src/contexts/AuthContext";
 import { theme } from "../styles/chakra-ui/theme";
 import Navbar from "../src/components/ui/Navbar";
 import PageTransition from "../styles/framer-motion/PageTransition";
+import Footer from "../src/components/ui/Footer";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }) {
         <PageTransition>
           <Component {...pageProps} />
         </PageTransition>
+        <Footer />
       </AuthContextProvider>
     </ChakraProvider>
   );

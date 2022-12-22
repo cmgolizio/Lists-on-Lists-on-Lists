@@ -102,7 +102,7 @@ const Dashboard = () => {
       <Center pos='absolute' top={20} paddingBottom='15rem'>
         <VStack>
           {error && <Alert status='error'><AlertIcon/>{error}</Alert>}
-          <Card w='50rem'>
+          <Card w={['20rem', null, null, '50rem']}>
             <CardHeader>
               <Heading size='xl'>{loading ? 'Loading your info...' : `Hi, ${name.first}!`}</Heading>
               <Button top={3} onClick={(e) => goToLists(e)}>My Lists</Button>
@@ -124,9 +124,10 @@ const Dashboard = () => {
             </CardFooter>
           </Card>
           <Button fontSize='sm' my='20rem' variant='link' onClick={(e) => handleLogout(e)}>Logout</Button>
+          {/* <Button fontSize='sm' pos='absolute' top='75rem' variant='link' onClick={onOpen} color='red.500'>Delete Account</Button> */}
+          <Button pt={5} fontSize='sm' variant='link' onClick={onOpen} color='red.500'>Delete Account</Button>
         </VStack>
       </Center>
-      <Button fontSize='sm' pos='absolute' bottom={20} variant='link' onClick={onOpen} color='red.500'>Delete Account</Button>
       {
         isOpen && <DeleteAccountConfirm isOpenProp={isOpen} onCloseProp={onClose} setError={setError} />
       }

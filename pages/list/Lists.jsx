@@ -46,11 +46,12 @@ const Lists = () => {
         <CustomPopover />
       </Center>
       <Flex
-        scrollSnapType={['y mandatory', null, null, null]}
-        dir={['column', null, null, 'row']}
+        scrollSnapType={['x mandatory', null, null, null]}
+        // dir={['row', null, null, 'row']}
+        dir='row'
         wrap={['wrap', null, null, 'nowrap']}
-        overflowX={['hidden', 'auto', 'auto', 'auto']}
-        overflowY={['auto', 'auto', 'auto', 'hidden']}
+        overflowY={['hidden', 'auto', 'auto', 'auto']}
+        overflowX={['auto', 'auto', 'auto', 'hidden']}
         h={['100%', null, null, 'calc(100vh - 15rem)']}
         m='4px 4px'
         p='4px'
@@ -67,8 +68,8 @@ const Lists = () => {
                 flex={[null, null, null, '0 0 auto']}
                 w={['85%', null, null, 'calc(33% - 20px)']}
                 h={['90%', null, null, null]}
-                scrollSnapAlign={['start', null, null, null]}
-                mb={i === lists.length - 1 ? '10rem' : null}
+                scrollSnapAlign={['center', null, null, null]}
+                mr={i === lists.length - 1 ? '10rem' : null}
               >
                 <List
                   list={list}

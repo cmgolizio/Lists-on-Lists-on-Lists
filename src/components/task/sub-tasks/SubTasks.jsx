@@ -6,10 +6,7 @@ import {
   onSnapshot,
   orderBy
 } from 'firebase/firestore';
-import {
-  VStack,
-  Heading,
-} from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 
 import { db } from '../../../firebase/firebase';
 import { useAuth } from '../../../hooks/useAuth';

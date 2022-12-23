@@ -21,7 +21,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 const List = ({ list, targetedList, setTargetedList }) => {
   const [showEditTitle, setShowEditTitle] = useState(false);
-  const { notModeColor, activateNewList, tasks } = useAuth();
+  const { notModeColor, activateNewList } = useAuth();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const router = useRouter();
   let type;

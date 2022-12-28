@@ -1,29 +1,21 @@
-import React from 'react';
-import {
-  Container,
-  HStack,
-  Text,
-  Box
-} from '@chakra-ui/react';
+import React from "react";
+import { Container, HStack, Text, Box } from "@chakra-ui/react";
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from "../../hooks/useAuth";
 
 const Footer = () => {
   const { notModeColor } = useAuth();
   return (
     <HStack
-      pos='absolute'
+      pos='fixed'
       top='97vh'
       left='0vw'
       w='100vw'
       justify='center'
       bg='transparent'
-      color={notModeColor}
+      color='gray.400'
     >
-      <Text
-        color={notModeColor}
-        fontSize='xs'
-      >
+      <Text color='gray.400' fontSize='xs'>
         Christopher Golizio®
       </Text>
     </HStack>

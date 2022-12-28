@@ -6,10 +6,11 @@ import { ThemeSwitcher } from "./ThemeSwitcher";
 import { useAuth } from "../../hooks/useAuth";
 import NavbarButton from "./NavbarButton";
 import UndoButton from "./UndoButton";
+import ProfileOptionsBtn from "./ProfileOptionsBtn";
 
 const Navbar = () => {
-  const [navText, setNavText] = useState('');
-  const [error, setError] = useState('');
+  const [navText, setNavText] = useState("");
+  const [error, setError] = useState("");
   const {
     logout,
     currentUser,
@@ -20,28 +21,28 @@ const Navbar = () => {
     setTasks,
     setActiveList,
     modeColor,
-    notModeColor
+    notModeColor,
   } = useAuth();
   const router = useRouter();
 
   // ** HANDLER FUNCTIONS ** //
   const handleLogout = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       await logout();
-      router.push('/auth/Login')
+      router.push("/auth/Login");
     } catch (error) {
-      setError('Failed to log out.')
+      setError("Failed to log out.");
     }
   };
 
   const handleToDashboard = async (e) => {
     e.preventDefault();
-    await setActiveList(null)
+    await setActiveList(null);
 
-    router.push('/', '/profile');
+    router.push("/", "/profile");
   };
 
   const handleCloseList = (e) => {
@@ -50,7 +51,7 @@ const Navbar = () => {
     setActiveList(null);
     setTasks(null);
 
-    router.push('/list/Lists', '/mylists');
+    router.push("/list/Lists", "/mylists");
   };
 
   // const handleNavText = async () => {
@@ -70,7 +71,7 @@ const Navbar = () => {
 
   return (
     <Flex
-      pos='relative'
+      pos='fixed'
       top='0vh'
       h='3.5rem'
       w='100%'
@@ -80,11 +81,13 @@ const Navbar = () => {
       justify='center'
     >
       <HStack justify='center'>
-        <HStack
-          pos='absolute'
-          left={3}
-        >
-          <NavbarButton label='Profile' handler={handleToDashboard} />
+        <HStack pos='absolute' left={3}>
+          <ProfileOptionsBtn
+            dashboard={handleToDashboard}
+            user={currentUser}
+            logout={handleLogout}
+          />
+          {/* <NavbarButton label='Profile' handler={handleToDashboard} /> */}
           <NavbarButton label='Lists' handler={handleCloseList} />
         </HStack>
         {/* <Box
@@ -99,20 +102,20 @@ const Navbar = () => {
             {navText}
           </Text>
         </Box> */}
-        <HStack
-          pos='absolute'
-          right={3}
-        >
+        <HStack pos='absolute' right={3}>
           <UndoButton />
           <ThemeSwitcher
             bg={modeColor}
             _hover={{
               bg: notModeColor,
               color: modeColor,
-              border: '1px',
+              border: "1px",
               borderColor: modeColor,
-            }} />
-          {currentUser && <NavbarButton label='Logout' handler={handleLogout} />}
+            }}
+          />
+          {/* {currentUser && (
+            <NavbarButton label='Logout' handler={handleLogout} />
+          )} */}
         </HStack>
       </HStack>
     </Flex>

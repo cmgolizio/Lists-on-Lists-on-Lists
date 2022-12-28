@@ -13,9 +13,9 @@ const Footer = () => {
       w='100vw'
       justify='center'
       bg='transparent'
-      color='gray.400'
+      color='gray.500'
     >
-      <Text color='gray.400' fontSize='xs'>
+      <Text color='gray.500' fontSize='xs'>
         Christopher Golizio®
       </Text>
     </HStack>

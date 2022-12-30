@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Flex, HStack, Text, Box } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Stack, HStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import { ThemeSwitcher } from "./ThemeSwitcher";
@@ -9,15 +9,10 @@ import UndoButton from "./UndoButton";
 import ProfileOptionsBtn from "./ProfileOptionsBtn";
 
 const Navbar = () => {
-  const [navText, setNavText] = useState("");
   const [error, setError] = useState("");
   const {
     logout,
     currentUser,
-    lists,
-    activeList,
-    userColor,
-    tasks,
     setTasks,
     setActiveList,
     modeColor,
@@ -54,71 +49,39 @@ const Navbar = () => {
     router.push("/list/Lists", "/mylists");
   };
 
-  // const handleNavText = async () => {
-  //   if (!currentUser) {
-  //     setNavText('');
-  //     return;
-  //   }
-
-  //   if (router.pathname === '/list/Lists') {
-  //     // setNavText(`Lists: (${lists.length})`);
-  //     await setNavText(`You have ${lists.length} lists`);
-  //   } else if (router.pathname === '/list/ActiveList') {
-  //     // setNavText(`Tasks: (${tasks.length})`);
-  //     await setNavText(`Your list "${activeList.title}" has ${tasks.length} uncompleted tasks`);
-  //   }
-  // };
-
   return (
-    <Flex
+    <HStack
       pos='fixed'
       top='0vh'
       h='3.5rem'
       w='100%'
-      // bg={modeColor}
+      // direction={["row", null, null, "row-reverse"]}
       bg='transparent'
       align='center'
-      justify='center'
+      justify={["space-between", null, null, "flex-start"]}
+      px='1rem'
     >
-      <HStack justify='center'>
-        <HStack pos='absolute' left={3}>
-          <ProfileOptionsBtn
-            dashboard={handleToDashboard}
-            user={currentUser}
-            logout={handleLogout}
-          />
-          {/* <NavbarButton label='Profile' handler={handleToDashboard} /> */}
-          <NavbarButton label='Lists' handler={handleCloseList} />
-        </HStack>
-        {/* <Box
-          pos='absolute'
-          left='50%'
-          transform='translate(-50%, 0)'
-        >
-          <Text
-            color={modeColor}
-            fontSize='3xl'
-          >
-            {navText}
-          </Text>
-        </Box> */}
-        <HStack pos='absolute' right={3}>
-          <UndoButton />
-          <ThemeSwitcher
-            bg={modeColor}
-            _hover={{
-              bg: notModeColor,
-              color: modeColor,
-              border: "1px",
-              borderColor: modeColor,
-            }}
-          />
-          {/* {currentUser && (
-            <NavbarButton label='Logout' handler={handleLogout} />
-          )} */}
-        </HStack>
+      <HStack>
+        <ProfileOptionsBtn
+          dashboard={handleToDashboard}
+          user={currentUser}
+          logout={handleLogout}
+        />
+        <NavbarButton label='Lists' handler={handleCloseList} />
       </HStack>
-    </Flex>
+      <HStack>
+        <UndoButton />
+        <ThemeSwitcher
+          bg={modeColor}
+          _hover={{
+            bg: notModeColor,
+            color: modeColor,
+            border: "1px",
+            borderColor: modeColor,
+          }}
+        />
+      </HStack>
+    </HStack>
   );
 };
 

@@ -73,32 +73,20 @@ const List = ({ list, targetedList, setTargetedList }) => {
       minH='calc(100% - 10rem)'
       h='max-content'
       w='100%'
-      // w='max-content'
       justify='center'
       bg={bgGradient}
       color={notModeColor}
       boxShadow={shadowColor}
-      // pos='relative'
       borderRadius={19}
-      // mx={5}
-      mt={["2rem", null, null, "5rem"]}
+      mt={["2rem", null, null, "6rem"]}
       px={10}
       textAlign='center'
     >
       <Box h='100%' minW='100%' pos='relative'>
-        <Heading
-          size='xl'
-          // pos='absolute'
-          // top={3}
-          // left='50%'
-          // transform='translate(-50%, 0)'
-          p={5}
-          as='button'
-          onClick={handleActivateList}
-        >
+        <Heading size='xl' p={5} as='button' onClick={handleActivateList}>
           {list.title}
         </Heading>
-        <Box pos='absolute' top={3} right={3}>
+        <Box pos='absolute' top='1%' left='99%'>
           <Menu>
             <MenuButton
               as={IconButton}

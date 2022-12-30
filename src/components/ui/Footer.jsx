@@ -4,7 +4,6 @@ import { Container, HStack, Text, Box } from "@chakra-ui/react";
 import { useAuth } from "../../hooks/useAuth";
 
 const Footer = () => {
-  const { notModeColor } = useAuth();
   return (
     <HStack
       pos='fixed'

@@ -2,7 +2,6 @@ import React from "react";
 import { IconButton, Icon, forwardRef } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
-import AddList from "./AddList";
 import { useAuth } from "../../hooks/useAuth";
 
 const AddListButton = forwardRef((props, ref) => {

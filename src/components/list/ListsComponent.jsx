@@ -40,7 +40,7 @@ const Lists = () => {
 
   return (
     <>
-      <Center pos='fixed' top={["87%", null, null, 25]} w='100%'>
+      <Center pos='fixed' top={25} ml={["45%", null, null, "50%"]}>
         <CustomPopover />
       </Center>
       {/* <Flex
@@ -74,6 +74,7 @@ const Lists = () => {
                 scrollSnapAlign='start'
                 mr={i === lists.length - 1 ? 6 : 0}
                 ml={i === 0 ? 6 : 10}
+                mt='1.5rem'
               >
                 <List
                   list={list}

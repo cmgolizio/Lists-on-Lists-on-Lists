@@ -40,26 +40,9 @@ const Lists = () => {
 
   return (
     <>
-      <Center pos='fixed' top={25} ml={["45%", null, null, "50%"]}>
+      {/* <Center pos='fixed' top={25} ml={["45%", null, null, "50%"]}>
         <CustomPopover />
-      </Center>
-      {/* <Flex
-        scrollSnapType={["x mandatory", null, null, null]}
-        // dir={["row", null, null, "row"]}
-        dir='row'
-        // wrap={["wrap", null,  null, "nowrap"]}
-        wrap='nowrap'
-        // overflowY={["hidden", "auto", "auto", "auto"]}
-        // overflowX={["auto", "auto", "auto", "hidden"]}
-        // overflowY='hidden'
-        // overflowX='auto'
-        h={["100%", null, null, "calc(100vh - 2rem)"]}
-        w='max-content'
-        m='4px 4px'
-        p='4px'
-        whiteSpace='nowrap'
-      > */}
-
+      </Center> */}
       {!lists
         ? null
         : lists.map((list, i) => {
@@ -71,7 +54,7 @@ const Lists = () => {
                 minW={["90vw", null, null, "calc(33% - 20px)"]}
                 h={["90%", null, null, null]}
                 // scrollSnapAlign={["center", null, null, null]}
-                scrollSnapAlign='start'
+                scrollSnapAlign='center'
                 mr={i === lists.length - 1 ? 6 : 0}
                 ml={i === 0 ? 6 : 10}
                 mt='1.5rem'

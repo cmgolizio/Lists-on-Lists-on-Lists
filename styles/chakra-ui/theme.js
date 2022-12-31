@@ -51,4 +51,5 @@ export const theme = extendTheme({
   },
   colors,
   config,
+  fonts: {},
 });

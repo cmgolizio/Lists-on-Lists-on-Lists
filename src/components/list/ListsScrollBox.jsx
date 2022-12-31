@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Flex, Center } from "@chakra-ui/react";
 
 import CustomPopover from "../ui/CustomPopover";
+import AddListInputDrawer from "./AddListInputDrawer";
 
 const ListsScrollBox = ({ children }) => {
   return (
@@ -16,7 +17,8 @@ const ListsScrollBox = ({ children }) => {
       // overflow='visible'
     >
       <Center pos='fixed' top={25} ml={["45%", null, null, "50%"]}>
-        <CustomPopover />
+        {/* <CustomPopover /> */}
+        <AddListInputDrawer />
       </Center>
       <Flex
         dir='row'

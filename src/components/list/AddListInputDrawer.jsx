@@ -23,7 +23,7 @@ const AddListInputDrawer = () => {
       <AddListButton onOpen={onOpen} />
       <Drawer placement='top' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bg={notModeColor} color={modeColor}>
           <DrawerHeader>Create a List</DrawerHeader>
           <DrawerBody>
             <AddList fieldRef={fieldRef} onCancel={onClose} />

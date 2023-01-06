@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
-import CustomPopover from "../ui/CustomPopover";
 import AddListButton from "./AddListButton";
 import AddList from "./AddList";
 import List from "./List";

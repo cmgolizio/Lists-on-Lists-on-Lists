@@ -8,6 +8,8 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
+  Center,
+  Flex,
 } from "@chakra-ui/react";
 
 import AddList from "./AddList";
@@ -21,13 +23,16 @@ const AddListInputDrawer = () => {
   return (
     <>
       <AddListButton onOpen={onOpen} />
-      <Drawer placement='top' onClose={onClose} isOpen={isOpen}>
+      <Drawer placement='top' onClose={onClose} isOpen={isOpen} autoFocus>
         <DrawerOverlay />
         <DrawerContent bg={notModeColor} color={modeColor}>
           <DrawerHeader>Create a List</DrawerHeader>
           <DrawerBody>
-            <AddList fieldRef={fieldRef} onCancel={onClose} />
+            <Center h='100%' w='100%'>
+              <AddList fieldRef={fieldRef} onCancel={onClose} />
+            </Center>
           </DrawerBody>
+          <DrawerCloseButton />
         </DrawerContent>
       </Drawer>
     </>
